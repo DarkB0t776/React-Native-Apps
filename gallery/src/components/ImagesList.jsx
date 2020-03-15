@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  Text,
   View,
-  StyleSheet,
   FlatList,
+  StyleSheet,
+  Text,
   Image,
   TouchableOpacity
 } from 'react-native';
@@ -12,20 +12,22 @@ const ImagesList = ({ images, navigation }) => {
   return (
     <View>
       <FlatList
-        showsVerticalScrollIndicator={false}
         data={images}
-        keyExtractor={image => image.id}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => {
           return (
-            <View style={styles.imageInfo}>
+            <View style={styles.container}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Image', { id: item.id })}
               >
-                <Image style={styles.image} source={{ uri: item.urls.small }} />
+                <Image style={styles.image} source={{ uri: item.urls.thumb }} />
               </TouchableOpacity>
               <View style={styles.info}>
-                {item.description ? <Text> {item.description}</Text> : null}
-                <Text>Author: {item.user.name}</Text>
+                {item.description ? <Text>{item.description}</Text> : null}
+                <Text>
+                  <Text style={{ fontWeight: 'bold' }}>Author:</Text>
+                  {item.user.name}
+                </Text>
               </View>
             </View>
           );
@@ -36,19 +38,19 @@ const ImagesList = ({ images, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  imageInfo: {
+  container: {
     marginBottom: 10,
     alignItems: 'center'
   },
   image: {
     height: 200,
     width: 300,
-    marginBottom: 3,
-    borderRadius: 6
+    borderRadius: 6,
+    marginBottom: 5
   },
   info: {
     alignItems: 'center',
-    marginHorizontal: 10
+    width: 300
   }
 });
 

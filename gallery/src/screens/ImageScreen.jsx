@@ -1,22 +1,22 @@
-import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import useImgUrl from '../hooks/useImgUrl';
+import React, { useState, useEffect } from 'react';
+import { View, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
+import { fetchImage } from '../redux/actions/imageActions';
 
-const ImageScreen = ({ route }) => {
-  const { id } = route.params;
-  const [imgUrl, getImage] = useImgUrl();
+const ImageScreen = props => {
+  const { id } = props.route.params;
+  useEffect(() => {
+    props.fetchImage(id);
+  }, []);
 
-  getImage(id);
-
-  if (!imgUrl) {
-    return null;
+  let content = (
+    <Image source={{ uri: props.image.imageUrl }} style={styles.image} />
+  );
+  if (props.image.isLoading) {
+    content = <ActivityIndicator size='large' />;
   }
 
-  return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: imgUrl }} />
-    </View>
-  );
+  return <View style={styles.container}>{content}</View>;
 };
 
 const styles = StyleSheet.create({
@@ -28,4 +28,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ImageScreen;
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchImage: id => dispatch(fetchImage(id))
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    image: state.imageReducer
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImageScreen);

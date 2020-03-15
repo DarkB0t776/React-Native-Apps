@@ -1,32 +1,42 @@
-import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import SearchBar from '../components/SearchBar';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator
+} from 'react-native';
 import ImagesList from '../components/ImagesList';
-import useImages from '../hooks/useImages';
 
-const MainScreen = ({ navigation }) => {
-  const [term, setTerm] = useState('');
-  const [images, onSubmitHandler] = useImages();
+import { fetchImages } from '../redux/actions/imagesActions';
+import { connect } from 'react-redux';
 
-  return (
-    <View style={styles.container}>
-      <SearchBar
-        term={term}
-        onChange={setTerm}
-        onSubmit={() => onSubmitHandler(term)}
-      />
-      <View style={{ flex: 1 }}>
-        <ImagesList navigation={navigation} images={images} />
-      </View>
-    </View>
+const MainScreen = props => {
+  useEffect(() => {
+    props.fetchImages();
+  }, []);
+
+  let content = (
+    <ImagesList images={props.allImages.images} navigation={props.navigation} />
   );
+
+  if (props.allImages.isLoading) {
+    content = <ActivityIndicator size='large' />;
+  }
+
+  return <View style={styles.container}>{content}</View>;
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: 'center',
-    flex: 1
+    marginTop: 10
   }
 });
 
-export default MainScreen;
+const mapStateToProps = state => {
+  return { allImages: state.imagesReducer };
+};
+
+export default connect(mapStateToProps, { fetchImages })(MainScreen);
