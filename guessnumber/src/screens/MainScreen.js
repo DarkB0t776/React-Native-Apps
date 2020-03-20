@@ -9,10 +9,12 @@ import {
   Alert,
 } from 'react-native';
 import Colors from '../constants/colors';
+import Fonts from '../constants/fonts';
 import Header from '../components/Header';
 import Card from '../components/Card';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
+import MainButton from '../components/MainButton';
 
 const MainScreen = ({navigation}) => {
   const [enteredValue, setEnteredValue] = useState('');
@@ -51,17 +53,17 @@ const MainScreen = ({navigation}) => {
       <Card style={styles.summaryContainer}>
         <Text>You selected</Text>
         <NumberContainer>{selectedNumber}</NumberContainer>
-        <Button
-          title="START GAME"
+        <MainButton
           onPress={() =>
-            navigation.navigate('Game', {userChoice: selectedNumber})
-          }
-        />
+            navigation.navigate('Game', {
+              userChoice: selectedNumber,
+            })
+          }>
+          START GAME
+        </MainButton>
       </Card>
     );
   }
-
-  console.log(enteredValue);
 
   return (
     <TouchableWithoutFeedback
@@ -73,7 +75,9 @@ const MainScreen = ({navigation}) => {
         <View style={styles.content}>
           <Text style={styles.title}>Start a New Game!</Text>
           <Card style={styles.inputContainer}>
-            <Text>Select a Number</Text>
+            <Text style={{fontFamily: Fonts.openSans.regular}}>
+              Select a Number
+            </Text>
             <Input
               style={styles.input}
               blurOnSubmit
@@ -120,6 +124,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginVertical: 10,
+    fontFamily: Fonts.openSans.bold,
   },
   inputContainer: {
     width: 300,

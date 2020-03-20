@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import MainScreen from './src/screens/MainScreen';
 import GameScreen from './src/screens/GameScreen';
 import GameOver from './src/screens/GameOver';
@@ -18,7 +18,13 @@ export default function App() {
           }}
         />
         <Stack.Screen name="Game" component={GameScreen} />
-        <Stack.Screen name="Over" component={GameOver} />
+        <Stack.Screen
+          name="Over"
+          component={GameOver}
+          options={{
+            header: () => null,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
