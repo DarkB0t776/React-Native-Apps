@@ -12,6 +12,7 @@ export default [
       'The employees must abide by the rules of the company.',
       'Bill always abides by his promises.',
     ],
+    color: 'white',
   },
   {
     id: '2',
@@ -26,5 +27,6 @@ export default [
       'Disputes arose over who would be the first to speak.',
       'Many questions have arisen recently over the origin of life.',
     ],
+    color: 'white',
   },
 ];
