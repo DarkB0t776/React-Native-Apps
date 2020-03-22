@@ -1,9 +1,9 @@
 export default [
   {
     id: '1',
-    infinitive: {word: 'abide', transcript: '/əˈbʌɪd/'},
-    pastSimple: {word: 'abode', transcript: '/əˈbəʊd/'},
-    pastPart: {word: 'abode', transcript: '/əˈbəʊd/'},
+    infinitive: {word: 'abide', transcript: '/əˈbʌɪd/', audio: 'abide1.mp3'},
+    pastSimple: {word: 'abode', transcript: '/əˈbəʊd/', audio: 'abode2.mp3'},
+    pastPart: {word: 'abode', transcript: '/əˈbəʊd/', audio: 'abode3.mp3'},
     definition:
       'to accept or bear (someone or something bad, unpleasant, etc.); to remain, continue, stay',
     ua: ['терпіти', 'дотримуватися', 'перебувати'],
@@ -16,9 +16,9 @@ export default [
   },
   {
     id: '2',
-    infinitive: {word: 'arise', transcript: '/əˈrʌɪz/'},
-    pastSimple: {word: 'arose', transcript: '/əˈrəʊz/'},
-    pastPart: {word: 'arisen', transcript: '/əˈrɪz(ə)n/'},
+    infinitive: {word: 'arise', transcript: '/əˈrʌɪz/', audio: 'abide1.mp3'},
+    pastSimple: {word: 'arose', transcript: '/əˈrəʊz/', audio: 'abode2.mp3'},
+    pastPart: {word: 'arisen', transcript: '/əˈrɪz(ə)n/', audio: 'abode3.mp3'},
     definition:
       'to originate; to get up from horizontal position, out of bed; to come into existence',
     ua: ['виникати', 'підніматися'],

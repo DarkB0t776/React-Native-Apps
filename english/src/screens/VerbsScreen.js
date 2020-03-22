@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, ImageBackground} from 'react-native';
+import {StyleSheet, Text, View, ImageBackground, Slider} from 'react-native';
 import FormsTitle from '../components/FormsTitle';
 import verbsData from '../../database/verbs';
 import VerbsList from '../components/VerbsList';
@@ -12,7 +12,6 @@ const VerbsScreen = () => {
 
   useEffect(() => {
     setVerbs(verbsData);
-    setSelectedWord(verbsData[0]);
   }, []);
 
   const appearModal = word => {
@@ -31,14 +30,22 @@ const VerbsScreen = () => {
     setVerbs(newArr);
   };
 
+  let modal = (
+    <MyModal
+      hideModal={hideModal}
+      modalVisible={showModal}
+      verb={selectedWord}
+      changeColor={changeColor}
+    />
+  );
+
+  if (Object.keys(selectedWord).length === 0) {
+    modal = null;
+  }
+
   return (
     <View style={styles.container}>
-      <MyModal
-        hideModal={hideModal}
-        modalVisible={showModal}
-        verb={selectedWord}
-        changeColor={changeColor}
-      />
+      {modal}
       <FormsTitle />
       <VerbsList selected={selectedWord} data={verbs} showModal={appearModal} />
     </View>

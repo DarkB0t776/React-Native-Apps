@@ -4,18 +4,27 @@ import {
   Text,
   View,
   Modal,
-  Button,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Colors from '../constants/Colors';
 import ColorButton from './ColorButton';
 import WordsRow from './WordsRow';
 import TranscriptRow from './TranscriptRow';
 import SoundRow from './SoundRow';
+import TranslationRow from './TranslationRow';
+import Definition from './Definition';
+import Examples from './Examples';
+import Images from '../constants/Images';
 
 const Mymodal = ({hideModal, modalVisible, verb, changeColor}) => {
-  if (verb === undefined) return;
+  let imageSrc;
+  let key = verb.infinitive.word;
+
+  if (Images[key]) {
+    imageSrc = Images[key].imageSource;
+  }
+
   return (
     <Modal visible={modalVisible} transparent={true}>
       <View style={styles.backdrop}>
@@ -49,18 +58,23 @@ const Mymodal = ({hideModal, modalVisible, verb, changeColor}) => {
             <TranscriptRow word={verb} />
           </View>
           <View style={styles.soundContainer}>
-            <SoundRow />
+            <SoundRow
+              infinitive={verb.infinitive.audio}
+              pastSimple={verb.pastSimple.audio}
+              pastPart={verb.pastPart.audio}
+            />
           </View>
           <View style={styles.translateContainer}>
-            <Text style={styles.translation}>{verb.ua.join(', ')}</Text>
+            <TranslationRow translation={verb.ua} />
+          </View>
+          <View style={styles.imageContainer}>
+            <Image style={styles.image} source={imageSrc} />
           </View>
           <View style={styles.definitionContainer}>
-            <Text style={styles.definition}>Визначення:</Text>
-            <Text>{verb.definition}</Text>
+            <Definition definition={verb.definition} />
           </View>
           <View style={styles.exampleContainer}>
-            <Text style={styles.example}>Приклади:</Text>
-            <Text>{verb.examples.join(' ')}</Text>
+            <Examples examples={verb.examples} />
           </View>
         </View>
       </View>
@@ -106,25 +120,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 5,
   },
-  translation: {
-    color: Colors.translationColor,
-    fontSize: 14,
-    fontWeight: 'bold',
+  imageContainer: {
+    width: '80%',
+    height: '25%',
+    marginHorizontal: 30,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   definitionContainer: {
     paddingHorizontal: 10,
   },
-  definition: {
-    color: Colors.highRed,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
   exampleContainer: {
     paddingHorizontal: 10,
-  },
-  example: {
-    color: Colors.highRed,
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });
