@@ -2,26 +2,60 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
 import VerbsScreen from './src/screens/VerbsScreen';
 import FavoriteScreen from './src/screens/FavoriteScreen';
 import PracticeScreen from './src/screens/PracticeScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
+import PracticeAllScreen from './src/screens/PracticeAllScreen';
+import Header from './src/components/Header';
 
 const Tab = createMaterialTopTabNavigator();
+const Drawer = createDrawerNavigator();
+const PracticeStack = createStackNavigator();
+const VerbStack = createStackNavigator();
 
-const App = () => {
+const Practice = () => (
+  <PracticeStack.Navigator>
+    <PracticeStack.Screen
+      name="Practice"
+      component={PracticeScreen}
+      options={{header: () => null}}
+    />
+    <PracticeStack.Screen name="PracticeAll" component={PracticeAllScreen} />
+  </PracticeStack.Navigator>
+);
+
+const Verbs = () => (
+  <VerbStack.Navigator>
+    <VerbStack.Screen
+      name="Verbs"
+      component={VerbsScreen}
+      options={{
+        header: () => null,
+      }}
+    />
+  </VerbStack.Navigator>
+);
+
+const App = props => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        tabBarOptions={{
-          style: styles.header,
-          labelStyle: styles.label,
-          indicatorStyle: styles.indicator,
-        }}>
-        <Tab.Screen name="Verbs" component={VerbsScreen} />
-        <Tab.Screen name="Favorite" component={FavoriteScreen} />
-        <Tab.Screen name="Practice" component={PracticeScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <Tab.Navigator
+          tabBar={props => <Header {...props} />}
+          tabBarOptions={{
+            style: styles.header,
+            labelStyle: styles.label,
+            indicatorStyle: styles.indicator,
+          }}>
+          <Tab.Screen name="Verbs" component={Verbs} />
+          <Tab.Screen name="Favorite" component={FavoriteScreen} />
+          <Tab.Screen name="Practice" component={Practice} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </>
   );
 };
 

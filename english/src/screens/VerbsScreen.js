@@ -1,18 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, ImageBackground, Slider} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import FormsTitle from '../components/FormsTitle';
 import verbsData from '../../database/verbs';
 import VerbsList from '../components/VerbsList';
 import MyModal from '../components/Mymodal';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 const VerbsScreen = () => {
   const [verbs, setVerbs] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedWord, setSelectedWord] = useState({});
+  const navigation = useNavigation();
 
   useEffect(() => {
     setVerbs(verbsData);
   }, []);
+
+  useEffect(() => {
+    navigation.setParams({words: verbs});
+  }, [verbs]);
 
   const appearModal = word => {
     setSelectedWord(word);
