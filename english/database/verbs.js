@@ -13,6 +13,8 @@ export default [
       'Bill always abides by his promises.',
     ],
     color: 'white',
+    stars: 0,
+    practiced: 0,
   },
   {
     id: '2',
@@ -28,5 +30,23 @@ export default [
       'Many questions have arisen recently over the origin of life.',
     ],
     color: 'white',
+    stars: 0,
+    practiced: 0,
+  },
+  {
+    id: '3',
+    infinitive: {word: 'awake', transcript: '/əˈweɪk/', audio: 'abide1.mp3'},
+    pastSimple: {word: 'awoke', transcript: '/əˈwəʊk/', audio: 'abode2.mp3'},
+    pastPart: {word: 'awoken', transcript: '/əˈwəʊk(ə)n/', audio: 'abode3.mp3'},
+    definition: 'to stop sleeping; to wake up',
+    ua: ['будити', 'прокидатися'],
+    examples: [
+      'Mary will awake in an hour because she has to go to work.',
+      'I awoke in the middle of the night when I heard that noise.',
+      'The patient has awoken from a two-week coma.',
+    ],
+    color: 'white',
+    stars: 0,
+    practiced: 0,
   },
 ];
