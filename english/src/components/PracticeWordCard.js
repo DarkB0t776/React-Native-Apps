@@ -6,14 +6,11 @@ import MyModal from '../components/Mymodal';
 import QuestionIcon from 'react-native-vector-icons/AntDesign';
 import PracticeInput from '../components/PracticeInput';
 
-const PracticeWordCard = ({word, done}) => {
+const PracticeWordCard = props => {
   let imageSrc;
-  let key = word.infinitive.word;
+  let key = props.word.infinitive.word;
 
   const [modal, setModal] = useState(false);
-  const [infinitive, setInfinitive] = useState('');
-  const [pastSimple, setPasSimple] = useState('');
-  const [pastPart, setPastPart] = useState('');
 
   const hideModal = () => {
     setModal(false);
@@ -23,13 +20,9 @@ const PracticeWordCard = ({word, done}) => {
     imageSrc = Images[key].imageSource;
   }
 
-  if (word.infinitive.word === infinitive) {
-    done();
-  }
-
   return (
     <View style={styles.card}>
-      <MyModal hideModal={hideModal} modalVisible={modal} verb={word} />
+      <MyModal hideModal={hideModal} modalVisible={modal} verb={props.word} />
       <View style={styles.iconContainer}>
         <TouchableOpacity onPress={() => setModal(true)}>
           <QuestionIcon name="questioncircleo" style={styles.questIcon} />
@@ -38,13 +31,26 @@ const PracticeWordCard = ({word, done}) => {
       <View style={styles.imageContainer}>
         <Image source={imageSrc} style={styles.image} />
       </View>
-      <Text style={styles.definition}>{word.definition}</Text>
-      <Text style={styles.translation}>{word.ua.join(', ')}</Text>
+      <Text style={styles.definition}>{props.word.definition}</Text>
+      <Text style={styles.translation}>{props.word.ua.join(', ')}</Text>
       <View style={styles.inputContainer}>
         <PracticeInput
-          value={infinitive}
-          onChangeHandler={setInfinitive}
+          value={props.infinitive}
+          onChangeHandler={props.setInfinitive}
           title="1.INF"
+          refInput={props.infRef}
+        />
+        <PracticeInput
+          value={props.pastSimple}
+          onChangeHandler={props.setPasSimple}
+          title="2.PS"
+          refInput={props.pastRef}
+        />
+        <PracticeInput
+          value={props.pastPart}
+          onChangeHandler={props.setPastPart}
+          title="3.PP"
+          refInput={props.pastPrRef}
         />
       </View>
     </View>
@@ -86,5 +92,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.translationColor,
     fontWeight: 'bold',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
