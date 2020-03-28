@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useMemo} from 'react';
 import {StyleSheet, ImageBackground} from 'react-native';
 import PracticeWordCard from '../components/PracticeWordCard';
 import CharButtons from '../components/CharButtons';

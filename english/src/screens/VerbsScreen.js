@@ -4,7 +4,7 @@ import FormsTitle from '../components/FormsTitle';
 import verbsData from '../../database/verbs';
 import VerbsList from '../components/VerbsList';
 import MyModal from '../components/Mymodal';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const VerbsScreen = () => {
   const [verbs, setVerbs] = useState([]);
