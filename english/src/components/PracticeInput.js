@@ -5,7 +5,6 @@ import Dash from 'react-native-dash';
 const PracticeInput = props => {
   return (
     <View>
-      <Text style={styles.title}>{props.title}</Text>
       <TextInput
         showSoftInputOnFocus={false}
         autoCapitalize="none"
@@ -28,9 +27,5 @@ export default PracticeInput;
 const styles = StyleSheet.create({
   input: {
     width: '100%',
-  },
-  title: {
-    color: '#802504',
-    fontWeight: 'bold',
   },
 });

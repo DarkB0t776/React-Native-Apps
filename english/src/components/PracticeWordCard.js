@@ -5,6 +5,7 @@ import Colors from '../constants/Colors';
 import MyModal from '../components/Mymodal';
 import QuestionIcon from 'react-native-vector-icons/AntDesign';
 import PracticeInput from '../components/PracticeInput';
+import HiddenWord from '../components/HiddenWord';
 
 const PracticeWordCard = props => {
   let imageSrc;
@@ -33,24 +34,28 @@ const PracticeWordCard = props => {
       </View>
       <Text style={styles.definition}>{props.word.definition}</Text>
       <Text style={styles.translation}>{props.word.ua.join(', ')}</Text>
+      <View style={styles.hiddenWordContainer}>
+        <HiddenWord
+          title="1.INF"
+          value={props.inf}
+          word={props.word.infinitive.word}
+        />
+        <HiddenWord
+          title="2.PS"
+          value={props.past}
+          word={props.word.pastSimple.word}
+        />
+        <HiddenWord
+          title="3.PP"
+          value={props.pastPart}
+          word={props.word.pastPart.word}
+        />
+      </View>
       <View style={styles.inputContainer}>
         <PracticeInput
-          value={props.infinitive}
+          value={props.userInput}
           onChangeHandler={props.setInfinitive}
-          title="1.INF"
-          refInput={props.infRef}
-        />
-        <PracticeInput
-          value={props.pastSimple}
-          onChangeHandler={props.setPasSimple}
-          title="2.PS"
-          refInput={props.pastRef}
-        />
-        <PracticeInput
-          value={props.pastPart}
-          onChangeHandler={props.setPastPart}
-          title="3.PP"
-          refInput={props.pastPrRef}
+          refInput={props.userInputRef}
         />
       </View>
     </View>
@@ -76,7 +81,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '70%',
-    height: '50%',
+    height: '40%',
     marginHorizontal: 30,
     alignSelf: 'center',
   },
@@ -92,6 +97,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: Colors.translationColor,
     fontWeight: 'bold',
+  },
+  hiddenWordContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 0,
   },
   inputContainer: {
     flexDirection: 'row',
