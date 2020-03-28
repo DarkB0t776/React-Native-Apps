@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import QuestionIcon from 'react-native-vector-icons/AntDesign';
+import Colors from '../constants/Colors';
 
 const HiddenWord = props => {
   let word = <QuestionIcon name="question" style={styles.icon} />;
   let title = <Text style={styles.text}>{props.title}</Text>;
 
-  if (props.value) {
+  if (props.value || props.done) {
     title = <Text style={styles.rightTitle}>{props.title}</Text>;
     word = <Text style={styles.rightWord}>{props.word}</Text>;
   }
@@ -26,11 +27,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rightTitle: {
-    color: 'green',
+    color: Colors.mainGreen,
     fontWeight: 'bold',
   },
   rightWord: {
-    color: 'green',
+    color: Colors.mainGreen,
     fontWeight: 'bold',
   },
 });

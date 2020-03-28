@@ -2,10 +2,13 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 const PracticeWords = props => {
+  const doneWords = props.words.filter(word => word.stars === 3);
   return (
     <View style={{...styles.container, ...props.style}}>
       <Text style={styles.text}>{props.title}</Text>
-      <Text style={styles.text}>0/{props.words.length}</Text>
+      <Text style={styles.text}>
+        {doneWords.length}/{props.words.length}
+      </Text>
     </View>
   );
 };

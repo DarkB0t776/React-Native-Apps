@@ -7,7 +7,9 @@ const PracticeAllScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
 
-  const words = route.params.words[0].words;
+  const words = route.params.words[0];
+  const setWords = route.params.setWords;
+
   const blueWords = words.filter(item => item.color === '#76D3F5');
   const yellowWords = words.filter(item => item.color === '#F7D257');
   const greenWords = words.filter(item => item.color === '#63E244');
@@ -19,13 +21,15 @@ const PracticeAllScreen = () => {
       style={styles.bgImg}>
       <TouchableOpacity
         style={styles.item}
-        onPress={() => navigation.navigate('PracticeWord', {words})}>
+        onPress={() => navigation.navigate('PracticeWord', {words, setWords})}>
         <PracticeWords title="All Words" words={words} />
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.item}
-        onPress={() => navigation.navigate('PracticeWord', {words: blueWords})}>
+        onPress={() =>
+          navigation.navigate('PracticeWord', {words: blueWords, setWords})
+        }>
         <PracticeWords
           title="Blue Words"
           words={blueWords}
@@ -36,7 +40,7 @@ const PracticeAllScreen = () => {
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
-          navigation.navigate('PracticeWord', {words: yellowWords})
+          navigation.navigate('PracticeWord', {words: yellowWords, setWords})
         }>
         <PracticeWords
           title="Yellow Words"
@@ -48,7 +52,7 @@ const PracticeAllScreen = () => {
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
-          navigation.navigate('PracticeWord', {words: greenWords})
+          navigation.navigate('PracticeWord', {words: greenWords, setWords})
         }>
         <PracticeWords
           title="Green Words"
@@ -59,7 +63,9 @@ const PracticeAllScreen = () => {
 
       <TouchableOpacity
         style={styles.item}
-        onPress={() => navigation.navigate('PracticeWord', {words: redWords})}>
+        onPress={() =>
+          navigation.navigate('PracticeWord', {words: redWords, setWords})
+        }>
         <PracticeWords
           title="Red Words"
           words={redWords}

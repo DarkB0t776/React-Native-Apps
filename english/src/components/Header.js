@@ -10,10 +10,12 @@ const Header = ({navigation, state}) => {
 
   let labels = state.routes;
   let words = [];
+  let setWords = null;
   const verbsScreen = state.routes.find(item => item.name === 'Verbs');
 
   if (typeof verbsScreen.state !== 'undefined') {
-    words.push(verbsScreen.state.routes[0].params);
+    words.push(verbsScreen.state.routes[0].params.words);
+    setWords = verbsScreen.state.routes[0].params.setWords;
   }
 
   const showModal = () => {
@@ -31,6 +33,7 @@ const Header = ({navigation, state}) => {
         hideModal={hideModal}
         navigation={navigation}
         words={words}
+        setWords={setWords}
       />
       <View style={styles.topSection}>
         <TouchableOpacity onPress={() => navigation.openDrawer()}>

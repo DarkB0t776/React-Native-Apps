@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 
-const PracticeModal = ({visible, navigation, hideModal, words}) => {
+const PracticeModal = ({visible, navigation, hideModal, words, setWords}) => {
   return (
     <Modal visible={visible} transparent={true}>
       <View style={styles.backdrop}>
@@ -16,7 +16,7 @@ const PracticeModal = ({visible, navigation, hideModal, words}) => {
           <View style={styles.practice}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('PracticeAll', {words});
+                navigation.navigate('PracticeAll', {words, setWords});
                 hideModal();
               }}>
               <Image

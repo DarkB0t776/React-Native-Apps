@@ -17,7 +17,7 @@ const VerbsScreen = () => {
   }, []);
 
   useEffect(() => {
-    navigation.setParams({words: verbs});
+    navigation.setParams({words: verbs, setWords: setVerbs});
   }, [verbs]);
 
   const appearModal = word => {

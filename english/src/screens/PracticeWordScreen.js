@@ -20,6 +20,7 @@ const shuffle = arr => {
 
 const PracticeWordScreen = ({route}) => {
   const words = route.params.words;
+  const setWords = route.params.setWords;
   const [wordIdx, setWordIdx] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [chars, setChars] = useState([]);
@@ -29,6 +30,10 @@ const PracticeWordScreen = ({route}) => {
   const [i, setI] = useState(0);
   const userInputRef = useRef();
 
+  console.log(words);
+
+  let done = false;
+
   const wordForms = `${words[wordIdx].infinitive.word}${words[wordIdx].pastSimple.word}${words[wordIdx].pastPart.word}ywzms`;
 
   const infinitive = words[wordIdx].infinitive.word.split('');
@@ -36,8 +41,13 @@ const PracticeWordScreen = ({route}) => {
   const pastPt = words[wordIdx].pastPart.word.split('');
 
   useEffect(() => {
-    userInputRef.current.focus();
+    if (userInputRef.current) {
+      userInputRef.current.focus();
+    }
     setUserInput('');
+    setInf(false);
+    setPast(false);
+    setPastPart(false);
   }, []);
 
   useEffect(() => {
@@ -59,42 +69,28 @@ const PracticeWordScreen = ({route}) => {
   };
 
   if (userInput === words[wordIdx].infinitive.word && !inf) {
-    console.log('inf');
     setInf(true);
     setI(0);
     setUserInput('');
   }
 
   if (userInput === words[wordIdx].pastSimple.word && inf && !past) {
-    console.log('past');
     setPast(true);
     setI(0);
     setUserInput('');
   }
 
   if (userInput === words[wordIdx].pastPart.word && inf && past) {
-    console.log('pastPart');
     setPastPart(true);
     setI(0);
     setUserInput('');
   }
 
-  if (inf && past && pastPart) {
-    nextHandler();
-    setInf(false);
-    setPast(false);
-    setPastPart(false);
-  }
-
   const checkChar = (char, word) => {
     while (i <= word.length) {
       if (char !== word[i]) {
-        console.log('wrong - ', char);
-        console.log('i - ', i);
         break;
       } else {
-        console.log('right - ', char);
-        console.log('i - ', i);
         setUserInput(prevChar => prevChar + char);
         setI(i => i + 1);
         break;
@@ -109,12 +105,25 @@ const PracticeWordScreen = ({route}) => {
       checkChar(char, pastSimple);
     }
     if (past) {
-      console.log('PT');
       checkChar(char, pastPt);
     }
-
-    console.log(i);
   };
+
+  if (inf && past && pastPart) {
+    let newWords = [...words];
+    if (newWords[wordIdx].stars < 3) newWords[wordIdx].stars += 1;
+    setWords(newWords);
+
+    userInputRef.current.focus();
+    setUserInput('');
+    setInf(false);
+    setPast(false);
+    setPastPart(false);
+  }
+
+  if (words[wordIdx].stars === 3) {
+    done = true;
+  }
 
   return (
     <ImageBackground
@@ -127,6 +136,7 @@ const PracticeWordScreen = ({route}) => {
         inf={inf}
         past={past}
         pastPart={pastPart}
+        done={done}
       />
       <CharButtons chars={chars} skip={nextHandler} onPress={onPressHandler} />
     </ImageBackground>
