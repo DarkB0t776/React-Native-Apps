@@ -1,11 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import SingleCharButton from './SingleCharButton';
 
 const CharButtons = ({chars, skip, onPress}) => {
   const buttons = chars.map(char => {
     return (
-      <TouchableOpacity key={char} onPress={() => onPress(char)}>
+      <TouchableOpacity key={Math.random()} onPress={() => onPress(char)}>
         <SingleCharButton char={char.toUpperCase()} />
       </TouchableOpacity>
     );
@@ -23,24 +23,20 @@ const CharButtons = ({chars, skip, onPress}) => {
   );
 };
 
-export default CharButtons;
-
 const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginTop: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   buttonsContainer: {
     flexDirection: 'row',
-    width: '90%',
+    width: '95%',
     flexWrap: 'wrap',
-    paddingHorizontal: 10,
+    justifyContent: 'center',
   },
   skipContainer: {
     flexDirection: 'row-reverse',
-    width: '100%',
   },
   skip: {},
 });
+export default CharButtons;

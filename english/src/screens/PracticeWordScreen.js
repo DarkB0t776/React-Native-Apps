@@ -1,5 +1,5 @@
-import React, {useState, useRef, useEffect, useMemo} from 'react';
-import {StyleSheet, ImageBackground} from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {Animated, StyleSheet, ImageBackground} from 'react-native';
 import PracticeWordCard from '../components/PracticeWordCard';
 import CharButtons from '../components/CharButtons';
 
@@ -28,39 +28,46 @@ const PracticeWordScreen = ({route}) => {
   const [past, setPast] = useState(false);
   const [pastPart, setPastPart] = useState(false);
   const [i, setI] = useState(0);
+  const [fadeAnim, setFadeAnim] = useState(new Animated.Value(0));
   const userInputRef = useRef();
 
-  console.log(words);
-
   let done = false;
-
-  const wordForms = `${words[wordIdx].infinitive.word}${words[wordIdx].pastSimple.word}${words[wordIdx].pastPart.word}ywzms`;
 
   const infinitive = words[wordIdx].infinitive.word.split('');
   const pastSimple = words[wordIdx].pastSimple.word.split('');
   const pastPt = words[wordIdx].pastPart.word.split('');
 
+  let infinitChars = [...infinitive, 'y', 'w', 'z', 'm', 's'];
+  let pastChars = [...pastSimple, 'y', 'w', 'z', 'm', 's'];
+  let ptChars = [...pastPt, 'y', 'w', 'z', 'm', 's'];
+
   useEffect(() => {
     if (userInputRef.current) {
       userInputRef.current.focus();
     }
-    setUserInput('');
-    setInf(false);
-    setPast(false);
-    setPastPart(false);
+    animation();
   }, []);
 
   useEffect(() => {
-    setChars(shuffle(Array.from(new Set(wordForms.split('')))));
+    animation();
+    resetData();
+    setChars(shuffle(infinitChars));
   }, [wordIdx]);
 
   useEffect(() => {
-    setChars(shuffle(Array.from(new Set(wordForms.split('')))));
+    animation();
+    setChars(shuffle(pastChars));
   }, [inf]);
 
   useEffect(() => {
-    setChars(shuffle(Array.from(new Set(wordForms.split('')))));
+    animation();
+    setChars(shuffle(ptChars));
   }, [past]);
+
+  useEffect(() => {
+    animation();
+    setChars(shuffle(infinitChars));
+  }, [pastPart]);
 
   const nextHandler = () => {
     setWordIdx(prevIdx => {
@@ -72,18 +79,21 @@ const PracticeWordScreen = ({route}) => {
     setInf(true);
     setI(0);
     setUserInput('');
+    setFadeAnim(new Animated.Value(0));
   }
 
   if (userInput === words[wordIdx].pastSimple.word && inf && !past) {
     setPast(true);
     setI(0);
     setUserInput('');
+    setFadeAnim(new Animated.Value(0));
   }
 
   if (userInput === words[wordIdx].pastPart.word && inf && past) {
     setPastPart(true);
     setI(0);
     setUserInput('');
+    setFadeAnim(new Animated.Value(0));
   }
 
   const checkChar = (char, word) => {
@@ -92,11 +102,16 @@ const PracticeWordScreen = ({route}) => {
         break;
       } else {
         setUserInput(prevChar => prevChar + char);
+        const charIdx = chars.findIndex(item => item === char);
+        let newChars = [...chars];
+        newChars.splice(charIdx, 1);
+        setChars(newChars);
         setI(i => i + 1);
         break;
       }
     }
   };
+
   const onPressHandler = char => {
     if (!inf) {
       checkChar(char, infinitive);
@@ -107,6 +122,20 @@ const PracticeWordScreen = ({route}) => {
     if (past) {
       checkChar(char, pastPt);
     }
+  };
+
+  const animation = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 2000,
+    }).start();
+  };
+
+  const resetData = () => {
+    setUserInput('');
+    setInf(false);
+    setPast(false);
+    setPastPart(false);
   };
 
   if (inf && past && pastPart) {
@@ -138,7 +167,13 @@ const PracticeWordScreen = ({route}) => {
         pastPart={pastPart}
         done={done}
       />
-      <CharButtons chars={chars} skip={nextHandler} onPress={onPressHandler} />
+      <Animated.View style={{opacity: fadeAnim}}>
+        <CharButtons
+          chars={chars}
+          skip={nextHandler}
+          onPress={onPressHandler}
+        />
+      </Animated.View>
     </ImageBackground>
   );
 };
@@ -150,5 +185,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: 15,
+  },
+  container: {
+    flex: 1,
   },
 });
