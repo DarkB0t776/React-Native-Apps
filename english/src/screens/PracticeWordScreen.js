@@ -85,6 +85,7 @@ const PracticeWordScreen = ({route, navigation}) => {
       newWords[wordIdx].skipped = 1;
       setWords(newWords);
     }
+    setI(0);
     setWordIdx(prevIdx => {
       return (prevIdx + 1) % words.length;
     });

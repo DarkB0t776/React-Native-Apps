@@ -1,15 +1,22 @@
-import React from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import ResultCard from '../components/ResultCard';
 import Colors from '../constants/Colors';
+import Mymodal from '../components/Mymodal';
 
 const PracticeResultsScreen = ({route}) => {
   const words = route.params.words;
   const setWords = route.params.setWords;
+  const [selectedWord, setSelectedWord] = useState({});
+  const [modal, setModal] = useState(false);
 
   let right = 0;
   let wrong = 0;
   let skipped = 0;
+
+  const hideModal = () => {
+    setModal(false);
+  };
 
   for (const [idx, word] of words.entries()) {
     let newWords = [...words];
@@ -38,10 +45,17 @@ const PracticeResultsScreen = ({route}) => {
     }
   }
 
-  console.log(words);
+  let myModal = (
+    <Mymodal hideModal={hideModal} modalVisible={modal} verb={selectedWord} />
+  );
+
+  if (Object.keys(selectedWord).length === 0) {
+    myModal = null;
+  }
 
   return (
     <View style={styles.container}>
+      {myModal}
       <ResultCard right={right} wrong={wrong} skipped={skipped} />
       <View style={styles.wordsContainer}>
         <FlatList
@@ -49,38 +63,44 @@ const PracticeResultsScreen = ({route}) => {
           keyExtractor={item => item.id}
           renderItem={({item}) => {
             return (
-              <View style={styles.listContainer}>
-                <View
-                  style={
-                    item.skipped
-                      ? {backgroundColor: Colors.lightBlue}
-                      : item.infinitive.wrong > 0
-                      ? {backgroundColor: 'red'}
-                      : {backgroundColor: Colors.mainGreen}
-                  }>
-                  <Text style={styles.word}>{item.infinitive.word}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedWord(item);
+                  setModal(true);
+                }}>
+                <View style={styles.listContainer}>
+                  <View
+                    style={
+                      item.skipped
+                        ? {backgroundColor: Colors.lightBlue}
+                        : item.infinitive.wrong > 0
+                        ? {backgroundColor: 'red'}
+                        : {backgroundColor: Colors.mainGreen}
+                    }>
+                    <Text style={styles.word}>{item.infinitive.word}</Text>
+                  </View>
+                  <View
+                    style={
+                      item.skipped
+                        ? {backgroundColor: Colors.lightBlue}
+                        : item.pastSimple.wrong > 0
+                        ? {backgroundColor: 'red'}
+                        : {backgroundColor: Colors.mainGreen}
+                    }>
+                    <Text style={styles.word}>{item.pastSimple.word}</Text>
+                  </View>
+                  <View
+                    style={
+                      item.skipped
+                        ? {backgroundColor: Colors.lightBlue}
+                        : item.pastPart.wrong > 0
+                        ? {backgroundColor: 'red'}
+                        : {backgroundColor: Colors.mainGreen}
+                    }>
+                    <Text style={styles.word}>{item.pastPart.word}</Text>
+                  </View>
                 </View>
-                <View
-                  style={
-                    item.skipped
-                      ? {backgroundColor: Colors.lightBlue}
-                      : item.pastSimple.wrong > 0
-                      ? {backgroundColor: 'red'}
-                      : {backgroundColor: Colors.mainGreen}
-                  }>
-                  <Text style={styles.word}>{item.pastSimple.word}</Text>
-                </View>
-                <View
-                  style={
-                    item.skipped
-                      ? {backgroundColor: Colors.lightBlue}
-                      : item.pastPart.wrong > 0
-                      ? {backgroundColor: 'red'}
-                      : {backgroundColor: Colors.mainGreen}
-                  }>
-                  <Text style={styles.word}>{item.pastPart.word}</Text>
-                </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
         />

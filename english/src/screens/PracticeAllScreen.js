@@ -28,8 +28,6 @@ const PracticeAllScreen = () => {
     }
 
     setWords(newWords);
-    console.log(words);
-    console.log('New', newWords);
   });
 
   return (
