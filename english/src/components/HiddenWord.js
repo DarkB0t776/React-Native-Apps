@@ -7,7 +7,7 @@ const HiddenWord = props => {
   let word = <QuestionIcon name="question" style={styles.icon} />;
   let title = <Text style={styles.text}>{props.title}</Text>;
 
-  if (props.value || props.done) {
+  if (props.value) {
     title = <Text style={styles.rightTitle}>{props.title}</Text>;
     word = <Text style={styles.rightWord}>{props.word}</Text>;
   }

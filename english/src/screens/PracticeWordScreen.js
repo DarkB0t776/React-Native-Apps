@@ -1,7 +1,15 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {Animated, StyleSheet, ImageBackground} from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 import PracticeWordCard from '../components/PracticeWordCard';
 import CharButtons from '../components/CharButtons';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const shuffle = arr => {
   let ctr = arr.length,
@@ -18,7 +26,9 @@ const shuffle = arr => {
   return arr;
 };
 
-const PracticeWordScreen = ({route}) => {
+let done = false;
+
+const PracticeWordScreen = ({route, navigation}) => {
   const words = route.params.words;
   const setWords = route.params.setWords;
   const [wordIdx, setWordIdx] = useState(0);
@@ -30,8 +40,6 @@ const PracticeWordScreen = ({route}) => {
   const [i, setI] = useState(0);
   const [fadeAnim, setFadeAnim] = useState(new Animated.Value(0));
   const userInputRef = useRef();
-
-  let done = false;
 
   const infinitive = words[wordIdx].infinitive.word.split('');
   const pastSimple = words[wordIdx].pastSimple.word.split('');
@@ -45,6 +53,8 @@ const PracticeWordScreen = ({route}) => {
     if (userInputRef.current) {
       userInputRef.current.focus();
     }
+    done = false;
+    resetData();
     animation();
   }, []);
 
@@ -70,6 +80,11 @@ const PracticeWordScreen = ({route}) => {
   }, [pastPart]);
 
   const nextHandler = () => {
+    if (!inf && !past && !pastPart) {
+      let newWords = [...words];
+      newWords[wordIdx].skipped = 1;
+      setWords(newWords);
+    }
     setWordIdx(prevIdx => {
       return (prevIdx + 1) % words.length;
     });
@@ -80,6 +95,9 @@ const PracticeWordScreen = ({route}) => {
     setI(0);
     setUserInput('');
     setFadeAnim(new Animated.Value(0));
+    let newWords = [...words];
+    newWords[wordIdx].infinitive.right += 1;
+    setWords(newWords);
   }
 
   if (userInput === words[wordIdx].pastSimple.word && inf && !past) {
@@ -93,12 +111,24 @@ const PracticeWordScreen = ({route}) => {
     setPastPart(true);
     setI(0);
     setUserInput('');
+    done = true;
     setFadeAnim(new Animated.Value(0));
   }
 
   const checkChar = (char, word) => {
     while (i <= word.length) {
       if (char !== word[i]) {
+        let newWords = [...words];
+        if (words[wordIdx].infinitive.word === word.join('') && !inf) {
+          newWords[wordIdx].infinitive.wrong += 1;
+          setWords(newWords);
+        } else if (words[wordIdx].pastSimple.word === word.join('') && !past) {
+          newWords[wordIdx].pastSimple.wrong += 1;
+          setWords(newWords);
+        } else {
+          newWords[wordIdx].pastPart.wrong += 1;
+          setWords(newWords);
+        }
         break;
       } else {
         setUserInput(prevChar => prevChar + char);
@@ -132,26 +162,37 @@ const PracticeWordScreen = ({route}) => {
   };
 
   const resetData = () => {
-    setUserInput('');
     setInf(false);
     setPast(false);
     setPastPart(false);
+    setUserInput('');
   };
 
-  if (inf && past && pastPart) {
+  const buttons = (
+    <CharButtons chars={chars} skip={nextHandler} onPress={onPressHandler} />
+  );
+  let footer = (
+    <Animated.View style={{opacity: fadeAnim}}>{buttons}</Animated.View>
+  );
+
+  if (done) {
+    done = false;
     let newWords = [...words];
     if (newWords[wordIdx].stars < 3) newWords[wordIdx].stars += 1;
     setWords(newWords);
-
-    userInputRef.current.focus();
-    setUserInput('');
-    setInf(false);
-    setPast(false);
-    setPastPart(false);
   }
 
-  if (words[wordIdx].stars === 3) {
-    done = true;
+  if (inf && past && pastPart && words.length - 1 === wordIdx) {
+    footer = (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('PracticeResults', {words: words, setWords})
+        }>
+        <View style={styles.resultBtn}>
+          <Text style={styles.resultBtnText}>Result</Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
 
   return (
@@ -167,13 +208,7 @@ const PracticeWordScreen = ({route}) => {
         pastPart={pastPart}
         done={done}
       />
-      <Animated.View style={{opacity: fadeAnim}}>
-        <CharButtons
-          chars={chars}
-          skip={nextHandler}
-          onPress={onPressHandler}
-        />
-      </Animated.View>
+      {footer}
     </ImageBackground>
   );
 };
@@ -188,5 +223,17 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  resultBtn: {
+    width: 150,
+    height: 70,
+    marginTop: 30,
+    backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  resultBtnText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

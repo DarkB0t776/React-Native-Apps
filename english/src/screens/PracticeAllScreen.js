@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import PracticeWords from '../components/PracticeWords';
@@ -14,6 +14,23 @@ const PracticeAllScreen = () => {
   const yellowWords = words.filter(item => item.color === '#F7D257');
   const greenWords = words.filter(item => item.color === '#63E244');
   const redWords = words.filter(item => item.color === '#F55757');
+
+  useEffect(() => {
+    let newWords = [...words];
+    for (const [idx, word] of newWords.entries()) {
+      newWords[idx].infinitive.wrong = 0;
+      newWords[idx].infinitive.right = 0;
+      newWords[idx].pastSimple.wrong = 0;
+      newWords[idx].pastSimple.right = 0;
+      newWords[idx].pastPart.wrong = 0;
+      newWords[idx].pastPart.right = 0;
+      newWords[idx].skipped = 0;
+    }
+
+    setWords(newWords);
+    console.log(words);
+    console.log('New', newWords);
+  });
 
   return (
     <ImageBackground
