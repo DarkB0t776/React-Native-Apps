@@ -26,6 +26,7 @@ const shuffle = arr => {
 };
 
 let done = false;
+let flag = false;
 
 const PracticeWordScreen = ({route, navigation}) => {
   const setAllWords = route.params.setWords;
@@ -64,7 +65,8 @@ const PracticeWordScreen = ({route, navigation}) => {
     if (words.length - 1 === wordIdx) {
       setLast(true);
     }
-    // done = false;
+    done = false;
+    flag = false;
   }, [wordIdx]);
 
   useEffect(() => {
@@ -116,6 +118,7 @@ const PracticeWordScreen = ({route, navigation}) => {
     setI(0);
     setUserInput('');
     done = true;
+    flag = true;
     setFadeAnim(new Animated.Value(0));
   }
 
@@ -185,9 +188,8 @@ const PracticeWordScreen = ({route, navigation}) => {
   let footer = (
     <Animated.View style={{opacity: fadeAnim}}>{buttons}</Animated.View>
   );
-
-  if (done) {
-    done = false;
+  if (done && flag) {
+    flag = false;
     let newWords = [...words];
     if (newWords[wordIdx].stars < 3) newWords[wordIdx].stars += 1;
     setWords(newWords);
