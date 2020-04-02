@@ -6,9 +6,11 @@ import Mymodal from '../components/Mymodal';
 
 const PracticeResultsScreen = ({route}) => {
   const words = route.params.words;
-  const setWords = route.params.setWords;
+  const setAllWords = route.params.setAllWords;
   const [selectedWord, setSelectedWord] = useState({});
   const [modal, setModal] = useState(false);
+
+  console.log('words', words);
 
   let right = 0;
   let wrong = 0;
@@ -30,7 +32,16 @@ const PracticeResultsScreen = ({route}) => {
       word.skipped === 0
     ) {
       newWords[idx].practiced += 1;
-      setWords(newWords);
+      setAllWords(prevWords => {
+        const newArr = prevWords.map(item => {
+          if (item.id === newWords[idx].id) {
+            item = newWords[idx];
+            return item;
+          }
+          return item;
+        });
+        return [...newArr];
+      });
       right += 1;
     }
     if (
@@ -40,7 +51,16 @@ const PracticeResultsScreen = ({route}) => {
       word.skipped === 0
     ) {
       newWords[idx].fail += 1;
-      setWords(newWords);
+      setAllWords(prevWords => {
+        const newArr = prevWords.map(item => {
+          if (item.id === newWords[idx].id) {
+            item = newWords[idx];
+            return item;
+          }
+          return item;
+        });
+        return [...newArr];
+      });
       wrong += 1;
     }
   }

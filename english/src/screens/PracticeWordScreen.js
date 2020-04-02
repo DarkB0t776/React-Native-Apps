@@ -28,9 +28,8 @@ const shuffle = arr => {
 let done = false;
 
 const PracticeWordScreen = ({route, navigation}) => {
-  const words = route.params.words;
-  const allWords = route.params.allWords ? route.params.allWords : undefined;
-  const setWords = route.params.setWords;
+  const setAllWords = route.params.setWords;
+  const [words, setWords] = useState(route.params.words);
   const [wordIdx, setWordIdx] = useState(0);
   const [userInput, setUserInput] = useState('');
   const [chars, setChars] = useState([]);
@@ -100,9 +99,8 @@ const PracticeWordScreen = ({route, navigation}) => {
     setI(0);
     setUserInput('');
     setFadeAnim(new Animated.Value(0));
-    let newWords = [...allWords];
-    let currentWords = [...words];
-    currentWords[wordIdx].infinitive.right += 1;
+    let newWords = [...words];
+    newWords[wordIdx].infinitive.right += 1;
     setWords(newWords);
   }
 
@@ -125,6 +123,7 @@ const PracticeWordScreen = ({route, navigation}) => {
     while (i <= word.length) {
       if (char !== word[i]) {
         let newWords = [...words];
+
         if (words[wordIdx].infinitive.word === word.join('') && !inf) {
           newWords[wordIdx].infinitive.wrong += 1;
           setWords(newWords);
@@ -198,7 +197,10 @@ const PracticeWordScreen = ({route, navigation}) => {
     footer = (
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('PracticeResults', {words: words, setWords})
+          navigation.navigate('PracticeResults', {
+            words: words,
+            setAllWords,
+          })
         }>
         <View style={styles.resultBtn}>
           <Text style={styles.resultBtnText}>Result</Text>
