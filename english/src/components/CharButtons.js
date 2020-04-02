@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import SingleCharButton from './SingleCharButton';
 
-const CharButtons = ({chars, skip, onPress}) => {
+const CharButtons = ({chars, skip, onPress, hideNextBtn}) => {
   const buttons = chars.map(char => {
     return (
       <TouchableOpacity key={Math.random()} onPress={() => onPress(char)}>
@@ -11,13 +11,16 @@ const CharButtons = ({chars, skip, onPress}) => {
     );
   });
 
+  let nextBtn = <SingleCharButton style={styles.skip} char="->" />;
+  if (hideNextBtn) {
+    nextBtn = null;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonsContainer}>{buttons}</View>
       <View style={styles.skipContainer}>
-        <TouchableOpacity onPress={skip}>
-          <SingleCharButton style={styles.skip} char="->" />
-        </TouchableOpacity>
+        <TouchableOpacity onPress={skip}>{nextBtn}</TouchableOpacity>
       </View>
     </View>
   );

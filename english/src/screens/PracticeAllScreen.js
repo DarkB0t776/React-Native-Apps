@@ -43,7 +43,11 @@ const PracticeAllScreen = () => {
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
-          navigation.navigate('PracticeWord', {words: blueWords, setWords})
+          navigation.navigate('PracticeWord', {
+            words: blueWords,
+            setWords,
+            allWords: words,
+          })
         }>
         <PracticeWords
           title="Blue Words"
@@ -55,7 +59,11 @@ const PracticeAllScreen = () => {
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
-          navigation.navigate('PracticeWord', {words: yellowWords, setWords})
+          navigation.navigate('PracticeWord', {
+            words: yellowWords,
+            setWords,
+            allWords: words,
+          })
         }>
         <PracticeWords
           title="Yellow Words"
@@ -67,7 +75,11 @@ const PracticeAllScreen = () => {
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
-          navigation.navigate('PracticeWord', {words: greenWords, setWords})
+          navigation.navigate('PracticeWord', {
+            words: greenWords,
+            setWords,
+            allWords: words,
+          })
         }>
         <PracticeWords
           title="Green Words"
@@ -79,7 +91,11 @@ const PracticeAllScreen = () => {
       <TouchableOpacity
         style={styles.item}
         onPress={() =>
-          navigation.navigate('PracticeWord', {words: redWords, setWords})
+          navigation.navigate('PracticeWord', {
+            words: redWords,
+            setWords,
+            allWords: words,
+          })
         }>
         <PracticeWords
           title="Red Words"

@@ -53,7 +53,7 @@ const VerbsScreen = () => {
     <View style={styles.container}>
       {modal}
       <FormsTitle />
-      <VerbsList selected={selectedWord} data={verbs} showModal={appearModal} />
+      <VerbsList data={verbs} showModal={appearModal} />
     </View>
   );
 };

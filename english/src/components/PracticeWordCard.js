@@ -76,19 +76,19 @@ const PracticeWordCard = props => {
           title="1.INF"
           value={props.inf}
           word={props.word.infinitive.word}
-          done={props.done}
+          wrong={props.word.infinitive.wrong}
         />
         <HiddenWord
           title="2.PS"
           value={props.past}
           word={props.word.pastSimple.word}
-          done={props.done}
+          wrong={props.word.pastSimple.wrong}
         />
         <HiddenWord
           title="3.PP"
           value={props.pastPart}
           word={props.word.pastPart.word}
-          done={props.done}
+          wrong={props.word.pastPart.wrong}
         />
       </View>
       <View style={styles.inputContainer}>{practiceInput}</View>

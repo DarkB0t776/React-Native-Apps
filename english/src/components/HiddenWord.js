@@ -8,8 +8,13 @@ const HiddenWord = props => {
   let title = <Text style={styles.text}>{props.title}</Text>;
 
   if (props.value) {
-    title = <Text style={styles.rightTitle}>{props.title}</Text>;
-    word = <Text style={styles.rightWord}>{props.word}</Text>;
+    if (props.wrong > 0) {
+      title = <Text style={styles.wrongTitle}>{props.title}</Text>;
+      word = <Text style={styles.wrongWord}>{props.word}</Text>;
+    } else {
+      title = <Text style={styles.rightTitle}>{props.title}</Text>;
+      word = <Text style={styles.rightWord}>{props.word}</Text>;
+    }
   }
 
   return (
@@ -30,8 +35,16 @@ const styles = StyleSheet.create({
     color: Colors.mainGreen,
     fontWeight: 'bold',
   },
+  wrongTitle: {
+    color: Colors.highRed,
+    fontWeight: 'bold',
+  },
   rightWord: {
     color: Colors.mainGreen,
+    fontWeight: 'bold',
+  },
+  wrongWord: {
+    color: 'black',
     fontWeight: 'bold',
   },
 });

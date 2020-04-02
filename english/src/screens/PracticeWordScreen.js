@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import PracticeWordCard from '../components/PracticeWordCard';
 import CharButtons from '../components/CharButtons';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const shuffle = arr => {
   let ctr = arr.length,
@@ -30,6 +29,7 @@ let done = false;
 
 const PracticeWordScreen = ({route, navigation}) => {
   const words = route.params.words;
+  const allWords = route.params.allWords ? route.params.allWords : undefined;
   const setWords = route.params.setWords;
   const [wordIdx, setWordIdx] = useState(0);
   const [userInput, setUserInput] = useState('');
@@ -40,6 +40,7 @@ const PracticeWordScreen = ({route, navigation}) => {
   const [i, setI] = useState(0);
   const [fadeAnim, setFadeAnim] = useState(new Animated.Value(0));
   const userInputRef = useRef();
+  const [last, setLast] = useState(false);
 
   const infinitive = words[wordIdx].infinitive.word.split('');
   const pastSimple = words[wordIdx].pastSimple.word.split('');
@@ -53,7 +54,6 @@ const PracticeWordScreen = ({route, navigation}) => {
     if (userInputRef.current) {
       userInputRef.current.focus();
     }
-    done = false;
     resetData();
     animation();
   }, []);
@@ -62,6 +62,10 @@ const PracticeWordScreen = ({route, navigation}) => {
     animation();
     resetData();
     setChars(shuffle(infinitChars));
+    if (words.length - 1 === wordIdx) {
+      setLast(true);
+    }
+    // done = false;
   }, [wordIdx]);
 
   useEffect(() => {
@@ -96,8 +100,9 @@ const PracticeWordScreen = ({route, navigation}) => {
     setI(0);
     setUserInput('');
     setFadeAnim(new Animated.Value(0));
-    let newWords = [...words];
-    newWords[wordIdx].infinitive.right += 1;
+    let newWords = [...allWords];
+    let currentWords = [...words];
+    currentWords[wordIdx].infinitive.right += 1;
     setWords(newWords);
   }
 
@@ -170,8 +175,14 @@ const PracticeWordScreen = ({route, navigation}) => {
   };
 
   const buttons = (
-    <CharButtons chars={chars} skip={nextHandler} onPress={onPressHandler} />
+    <CharButtons
+      chars={chars}
+      skip={nextHandler}
+      onPress={onPressHandler}
+      hideNextBtn={last}
+    />
   );
+
   let footer = (
     <Animated.View style={{opacity: fadeAnim}}>{buttons}</Animated.View>
   );

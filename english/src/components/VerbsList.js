@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import Colors from '../constants/Colors';
 
-const VerbsList = ({data, showModal, selected}) => {
+const VerbsList = ({data, showModal}) => {
   return (
     <View>
       <FlatList
         data={data}
         keyExtractor={item => item.id}
-        extraData={selected}
         renderItem={({item}) => {
           return (
             <View style={{backgroundColor: item.color}}>
