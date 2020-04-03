@@ -46,10 +46,14 @@ const PracticeWordScreen = ({route, navigation}) => {
   const infinitive = words[wordIdx].infinitive.word.split('');
   const pastSimple = words[wordIdx].pastSimple.word.split('');
   const pastPt = words[wordIdx].pastPart.word.split('');
+  const mistakes =
+    words[wordIdx].infinitive.wrong +
+    words[wordIdx].pastSimple.wrong +
+    words[wordIdx].pastPart.wrong;
 
-  let infinitChars = [...infinitive, 'y', 'w', 'z', 'm', 's'];
-  let pastChars = [...pastSimple, 'y', 'w', 'z', 'm', 's'];
-  let ptChars = [...pastPt, 'y', 'w', 'z', 'm', 's'];
+  const infinitChars = [...infinitive, 'y', 'w', 'z', 'm', 's'];
+  const pastChars = [...pastSimple, 'y', 'w', 'z', 'm', 's'];
+  const ptChars = [...pastPt, 'y', 'w', 'z', 'm', 's'];
 
   useEffect(() => {
     if (userInputRef.current) {
@@ -120,10 +124,6 @@ const PracticeWordScreen = ({route, navigation}) => {
     setUserInput('');
     done = true;
     flag = true;
-    const mistakes =
-      words[wordIdx].infinitive.wrong +
-      words[wordIdx].pastSimple.wrong +
-      words[wordIdx].pastPart.wrong;
 
     if (mistakes > 0) {
       needPractice = true;
