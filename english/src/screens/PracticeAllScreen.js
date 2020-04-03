@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
+import {StyleSheet, ImageBackground} from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import PracticeWords from '../components/PracticeWords';
 
@@ -34,75 +34,44 @@ const PracticeAllScreen = () => {
     <ImageBackground
       source={require('../../assets/images/wood-bg.jpg')}
       style={styles.bgImg}>
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => navigation.navigate('PracticeWord', {words, setWords})}>
-        <PracticeWords title="All Words" words={words} />
-      </TouchableOpacity>
+      <PracticeWords
+        title="All Words"
+        words={words}
+        setWords={setWords}
+        navigation={navigation}
+      />
 
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() =>
-          navigation.navigate('PracticeWord', {
-            words: blueWords,
-            setWords,
-            allWords: words,
-          })
-        }>
-        <PracticeWords
-          title="Blue Words"
-          words={blueWords}
-          style={{backgroundColor: '#76D3F5'}}
-        />
-      </TouchableOpacity>
+      <PracticeWords
+        title="Blue Words"
+        words={blueWords}
+        style={{backgroundColor: '#76D3F5'}}
+        setWords={setWords}
+        navigation={navigation}
+      />
 
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() =>
-          navigation.navigate('PracticeWord', {
-            words: yellowWords,
-            setWords,
-            allWords: words,
-          })
-        }>
-        <PracticeWords
-          title="Yellow Words"
-          words={yellowWords}
-          style={{backgroundColor: '#F7D257'}}
-        />
-      </TouchableOpacity>
+      <PracticeWords
+        title="Yellow Words"
+        words={yellowWords}
+        style={{backgroundColor: '#F7D257'}}
+        setWords={setWords}
+        navigation={navigation}
+      />
 
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() =>
-          navigation.navigate('PracticeWord', {
-            words: greenWords,
-            setWords,
-            allWords: words,
-          })
-        }>
-        <PracticeWords
-          title="Green Words"
-          words={greenWords}
-          style={{backgroundColor: '#63E244'}}
-        />
-      </TouchableOpacity>
+      <PracticeWords
+        title="Green Words"
+        words={greenWords}
+        style={{backgroundColor: '#63E244'}}
+        setWords={setWords}
+        navigation={navigation}
+      />
 
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() =>
-          navigation.navigate('PracticeWord', {
-            words: redWords,
-            setWords,
-            allWords: words,
-          })
-        }>
-        <PracticeWords
-          title="Red Words"
-          words={redWords}
-          style={{backgroundColor: '#F55757'}}
-        />
-      </TouchableOpacity>
+      <PracticeWords
+        title="Red Words"
+        words={redWords}
+        style={{backgroundColor: '#F55757'}}
+        setWords={setWords}
+        navigation={navigation}
+      />
     </ImageBackground>
   );
 };
@@ -114,8 +83,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  item: {
-    width: '85%',
   },
 });

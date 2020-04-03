@@ -27,6 +27,7 @@ const shuffle = arr => {
 
 let done = false;
 let flag = false;
+let needPractice = false;
 
 const PracticeWordScreen = ({route, navigation}) => {
   const setAllWords = route.params.setWords;
@@ -67,6 +68,7 @@ const PracticeWordScreen = ({route, navigation}) => {
     }
     done = false;
     flag = false;
+    needPractice = false;
   }, [wordIdx]);
 
   useEffect(() => {
@@ -102,7 +104,6 @@ const PracticeWordScreen = ({route, navigation}) => {
     setUserInput('');
     setFadeAnim(new Animated.Value(0));
     let newWords = [...words];
-    newWords[wordIdx].infinitive.right += 1;
     setWords(newWords);
   }
 
@@ -119,6 +120,14 @@ const PracticeWordScreen = ({route, navigation}) => {
     setUserInput('');
     done = true;
     flag = true;
+    const mistakes =
+      words[wordIdx].infinitive.wrong +
+      words[wordIdx].pastSimple.wrong +
+      words[wordIdx].pastPart.wrong;
+
+    if (mistakes > 0) {
+      needPractice = true;
+    }
     setFadeAnim(new Animated.Value(0));
   }
 
@@ -151,6 +160,9 @@ const PracticeWordScreen = ({route, navigation}) => {
   };
 
   const onPressHandler = char => {
+    if (inf && past && pastPart) {
+      return;
+    }
     if (!inf) {
       checkChar(char, infinitive);
     }
@@ -223,6 +235,7 @@ const PracticeWordScreen = ({route, navigation}) => {
         past={past}
         pastPart={pastPart}
         done={done}
+        needPractice={needPractice}
       />
       {footer}
     </ImageBackground>

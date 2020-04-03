@@ -1,15 +1,28 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 const PracticeWords = props => {
   const doneWords = props.words.filter(word => word.stars === 3);
   return (
-    <View style={{...styles.container, ...props.style}}>
-      <Text style={styles.text}>{props.title}</Text>
-      <Text style={styles.text}>
-        {doneWords.length}/{props.words.length}
-      </Text>
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => {
+        if (props.words.length > 0) {
+          props.navigation.navigate('PracticeWord', {
+            words: props.words,
+            setWords: props.setWords,
+          });
+        } else {
+          return;
+        }
+      }}>
+      <View style={{...styles.container, ...props.style}}>
+        <Text style={styles.text}>{props.title}</Text>
+        <Text style={styles.text}>
+          {doneWords.length}/{props.words.length}
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -28,5 +41,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  item: {
+    width: '85%',
   },
 });

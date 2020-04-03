@@ -24,8 +24,14 @@ const PracticeWordCard = props => {
     />
   );
 
-  if (props.done) {
+  if (props.done && !props.needPractice) {
     practiceInput = <Text style={styles.doneText}>Excellent</Text>;
+  }
+
+  if (props.done && props.needPractice) {
+    practiceInput = (
+      <Text style={styles.needPractice}>You need more practice</Text>
+    );
   }
 
   const changeStar = () => {
@@ -148,5 +154,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: Colors.mainGreen,
+  },
+  needPractice: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

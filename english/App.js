@@ -18,7 +18,7 @@ const Drawer = createDrawerNavigator();
 const PracticeStack = createStackNavigator();
 const VerbStack = createStackNavigator();
 
-const Practice = () => (
+const Practice = ({navigation}) => (
   <PracticeStack.Navigator>
     <PracticeStack.Screen
       name="Practice"
