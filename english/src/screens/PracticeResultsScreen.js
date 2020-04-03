@@ -1,20 +1,25 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import ResultCard from '../components/ResultCard';
 import Colors from '../constants/Colors';
 import Mymodal from '../components/Mymodal';
 
-const PracticeResultsScreen = ({route}) => {
+const PracticeResultsScreen = ({route, navigation}) => {
   const words = route.params.words;
   const setAllWords = route.params.setAllWords;
+  const exam = route.params.exam;
+  const getPercentage = route.params.setPercentage;
   const [selectedWord, setSelectedWord] = useState({});
   const [modal, setModal] = useState(false);
-
-  console.log('words', words);
 
   let right = 0;
   let wrong = 0;
   let skipped = 0;
+  const rightWords = [];
+
+  useEffect(() => {
+    getPercentage(percentage);
+  });
 
   const hideModal = () => {
     setModal(false);
@@ -31,6 +36,7 @@ const PracticeResultsScreen = ({route}) => {
       word.pastPart.wrong === 0 &&
       word.skipped === 0
     ) {
+      rightWords.push(word);
       newWords[idx].practiced += 1;
       setAllWords(prevWords => {
         const newArr = prevWords.map(item => {
@@ -65,6 +71,8 @@ const PracticeResultsScreen = ({route}) => {
     }
   }
 
+  const percentage = (rightWords.length / words.length).toFixed(2) * 100;
+
   let myModal = (
     <Mymodal hideModal={hideModal} modalVisible={modal} verb={selectedWord} />
   );
@@ -73,10 +81,24 @@ const PracticeResultsScreen = ({route}) => {
     myModal = null;
   }
 
+  let resultCard = <ResultCard right={right} wrong={wrong} skipped={skipped} />;
+
+  if (exam) {
+    resultCard = (
+      <ResultCard
+        right={right}
+        wrong={wrong}
+        skipped={skipped}
+        exam={exam}
+        percentage={percentage}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
       {myModal}
-      <ResultCard right={right} wrong={wrong} skipped={skipped} />
+      {resultCard}
       <View style={styles.wordsContainer}>
         <FlatList
           data={words}

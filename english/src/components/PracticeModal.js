@@ -27,7 +27,11 @@ const PracticeModal = ({visible, navigation, hideModal, words, setWords}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.exams}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Exam', {words, setWords});
+                hideModal();
+              }}>
               <Image
                 style={styles.image}
                 source={require('../../assets/images/exam.png')}

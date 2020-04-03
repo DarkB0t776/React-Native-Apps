@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, ImageBackground} from 'react-native';
 import {useRoute, useNavigation} from '@react-navigation/native';
-import PracticeWords from '../components/PracticeWords';
+import WordsLabel from '../components/WordsLabel';
 
 const PracticeAllScreen = () => {
   const route = useRoute();
@@ -9,6 +9,7 @@ const PracticeAllScreen = () => {
 
   const words = route.params.words[0];
   const setWords = route.params.setWords;
+  const practice = true;
 
   const blueWords = words.filter(item => item.color === '#76D3F5');
   const yellowWords = words.filter(item => item.color === '#F7D257');
@@ -34,14 +35,15 @@ const PracticeAllScreen = () => {
     <ImageBackground
       source={require('../../assets/images/wood-bg.jpg')}
       style={styles.bgImg}>
-      <PracticeWords
+      <WordsLabel
         title="All Words"
         words={words}
         setWords={setWords}
         navigation={navigation}
+        practice={practice}
       />
 
-      <PracticeWords
+      <WordsLabel
         title="Blue Words"
         words={blueWords}
         style={{backgroundColor: '#76D3F5'}}
@@ -49,7 +51,7 @@ const PracticeAllScreen = () => {
         navigation={navigation}
       />
 
-      <PracticeWords
+      <WordsLabel
         title="Yellow Words"
         words={yellowWords}
         style={{backgroundColor: '#F7D257'}}
@@ -57,7 +59,7 @@ const PracticeAllScreen = () => {
         navigation={navigation}
       />
 
-      <PracticeWords
+      <WordsLabel
         title="Green Words"
         words={greenWords}
         style={{backgroundColor: '#63E244'}}
@@ -65,7 +67,7 @@ const PracticeAllScreen = () => {
         navigation={navigation}
       />
 
-      <PracticeWords
+      <WordsLabel
         title="Red Words"
         words={redWords}
         style={{backgroundColor: '#F55757'}}

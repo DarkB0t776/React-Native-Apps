@@ -34,22 +34,51 @@ const PracticeWordCard = props => {
     );
   }
 
-  const changeStar = () => {
-    if (props.word.stars === 1) {
-      star1 = <Star name="star" style={{color: Colors.mainGreen}} key="1" />;
-    }
-    if (props.word.stars === 2) {
-      star2 = <Star name="star" style={{color: Colors.mainGreen}} key="2" />;
-      star1 = <Star name="star" style={{color: Colors.mainGreen}} key="1" />;
-    }
-    if (props.word.stars === 3) {
-      star3 = <Star name="star" style={{color: Colors.mainGreen}} key="3" />;
-      star2 = <Star name="star" style={{color: Colors.mainGreen}} key="2" />;
-      star1 = <Star name="star" style={{color: Colors.mainGreen}} key="1" />;
-    }
-  };
+  if (props.practice) {
+    const changeStar = () => {
+      if (props.word.stars === 1) {
+        star1 = <Star name="star" style={{color: Colors.mainGreen}} key="1" />;
+      }
+      if (props.word.stars === 2) {
+        star2 = <Star name="star" style={{color: Colors.mainGreen}} key="2" />;
+        star1 = <Star name="star" style={{color: Colors.mainGreen}} key="1" />;
+      }
+      if (props.word.stars === 3) {
+        star3 = <Star name="star" style={{color: Colors.mainGreen}} key="3" />;
+        star2 = <Star name="star" style={{color: Colors.mainGreen}} key="2" />;
+        star1 = <Star name="star" style={{color: Colors.mainGreen}} key="1" />;
+      }
+    };
 
-  changeStar();
+    changeStar();
+  }
+
+  let header = null;
+
+  if (props.practice) {
+    header = (
+      <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={() => setModal(true)}>
+          <QuestionIcon name="questioncircleo" style={styles.questIcon} />
+        </TouchableOpacity>
+        <View style={styles.starContainer}>
+          {star1}
+          {star2}
+          {star3}
+        </View>
+      </View>
+    );
+  }
+
+  if (props.exam && props.done) {
+    header = (
+      <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={() => setModal(true)}>
+          <QuestionIcon name="questioncircleo" style={styles.questIcon} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   const hideModal = () => {
     setModal(false);
@@ -62,16 +91,7 @@ const PracticeWordCard = props => {
   return (
     <View style={styles.card}>
       <MyModal hideModal={hideModal} modalVisible={modal} verb={props.word} />
-      <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => setModal(true)}>
-          <QuestionIcon name="questioncircleo" style={styles.questIcon} />
-        </TouchableOpacity>
-        <View style={styles.starContainer}>
-          {star1}
-          {star2}
-          {star3}
-        </View>
-      </View>
+      {header}
       <View style={styles.imageContainer}>
         <Image source={imageSrc} style={styles.image} />
       </View>
@@ -126,6 +146,7 @@ const styles = StyleSheet.create({
     width: '70%',
     height: '40%',
     marginHorizontal: 30,
+    marginTop: 10,
     alignSelf: 'center',
   },
   image: {

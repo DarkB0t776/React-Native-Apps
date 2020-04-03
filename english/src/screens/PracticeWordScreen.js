@@ -55,6 +55,17 @@ const PracticeWordScreen = ({route, navigation}) => {
   const pastChars = [...pastSimple, 'y', 'w', 'z', 'm', 's'];
   const ptChars = [...pastPt, 'y', 'w', 'z', 'm', 's'];
 
+  let practice = null;
+  let exam = null;
+  if (route.params.exam) {
+    practice = false;
+    exam = route.params.exam;
+  }
+  if (route.params.practice) {
+    exam = false;
+    practice = route.params.practice;
+  }
+
   useEffect(() => {
     if (userInputRef.current) {
       userInputRef.current.focus();
@@ -128,6 +139,12 @@ const PracticeWordScreen = ({route, navigation}) => {
     if (mistakes > 0) {
       needPractice = true;
     }
+
+    if (exam && mistakes < 1) {
+      const newWords = [...words];
+      newWords[wordIdx].examed = 1;
+      setWords(newWords);
+    }
     setFadeAnim(new Animated.Value(0));
   }
 
@@ -200,7 +217,7 @@ const PracticeWordScreen = ({route, navigation}) => {
   let footer = (
     <Animated.View style={{opacity: fadeAnim}}>{buttons}</Animated.View>
   );
-  if (done && flag) {
+  if (done && flag && practice) {
     flag = false;
     let newWords = [...words];
     if (newWords[wordIdx].stars < 3) newWords[wordIdx].stars += 1;
@@ -212,8 +229,11 @@ const PracticeWordScreen = ({route, navigation}) => {
       <TouchableOpacity
         onPress={() =>
           navigation.navigate('PracticeResults', {
-            words: words,
+            words,
             setAllWords,
+            practice,
+            exam,
+            setPercentage: route.params.setPercentage,
           })
         }>
         <View style={styles.resultBtn}>
@@ -236,6 +256,8 @@ const PracticeWordScreen = ({route, navigation}) => {
         pastPart={pastPart}
         done={done}
         needPractice={needPractice}
+        practice={practice}
+        exam={exam}
       />
       {footer}
     </ImageBackground>

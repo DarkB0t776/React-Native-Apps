@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
-const PracticeWords = props => {
+const WordsLabel = props => {
   const doneWords = props.words.filter(word => word.stars === 3);
   return (
     <TouchableOpacity
@@ -11,6 +11,7 @@ const PracticeWords = props => {
           props.navigation.navigate('PracticeWord', {
             words: props.words,
             setWords: props.setWords,
+            practice: props.practice,
           });
         } else {
           return;
@@ -26,7 +27,7 @@ const PracticeWords = props => {
   );
 };
 
-export default PracticeWords;
+export default WordsLabel;
 
 const styles = StyleSheet.create({
   container: {

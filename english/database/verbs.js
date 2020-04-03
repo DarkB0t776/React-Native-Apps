@@ -32,6 +32,7 @@ export default [
     practiced: 0,
     fail: 0,
     skipped: 0,
+    examed: 0,
   },
   {
     id: '2',
@@ -66,6 +67,7 @@ export default [
     practiced: 0,
     fail: 0,
     skipped: 0,
+    examed: 0,
   },
   {
     id: '3',
@@ -99,5 +101,6 @@ export default [
     practiced: 0,
     fail: 0,
     skipped: 0,
+    examed: 0,
   },
 ];
