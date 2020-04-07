@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 const Grade = ({percentage}) => {
@@ -11,8 +11,10 @@ const Grade = ({percentage}) => {
     grade = <Text style={styles.grade}>C</Text>;
   } else if (percentage >= 60 && percentage <= 69.99) {
     grade = <Text style={styles.grade}>D</Text>;
-  } else {
+  } else if (percentage > 0 && percentage <= 59.99) {
     grade = <Text style={styles.grade}>F</Text>;
+  } else {
+    grade = null;
   }
 
   return <View>{grade}</View>;

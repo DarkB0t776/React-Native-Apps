@@ -31,6 +31,7 @@ const Practice = ({navigation}) => (
     <PracticeStack.Screen
       name="PracticeResults"
       component={PracticeResultsScreen}
+      options={{title: 'Results'}}
     />
     <PracticeStack.Screen name="Exam" component={ExamScreen} />
   </PracticeStack.Navigator>

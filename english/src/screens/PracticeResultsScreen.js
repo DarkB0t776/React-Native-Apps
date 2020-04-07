@@ -11,6 +11,7 @@ const PracticeResultsScreen = ({route, navigation}) => {
   const getPercentage = route.params.setPercentage;
   const [selectedWord, setSelectedWord] = useState({});
   const [modal, setModal] = useState(false);
+  const [percentage, setPercentage] = useState(null);
 
   let right = 0;
   let wrong = 0;
@@ -20,6 +21,10 @@ const PracticeResultsScreen = ({route, navigation}) => {
   useEffect(() => {
     getPercentage(percentage);
   });
+
+  useEffect(() => {
+    setPercentage((rightWords.length / words.length).toFixed(2) * 100);
+  }, []);
 
   const hideModal = () => {
     setModal(false);
@@ -70,8 +75,6 @@ const PracticeResultsScreen = ({route, navigation}) => {
       wrong += 1;
     }
   }
-
-  const percentage = (rightWords.length / words.length).toFixed(2) * 100;
 
   let myModal = (
     <Mymodal hideModal={hideModal} modalVisible={modal} verb={selectedWord} />

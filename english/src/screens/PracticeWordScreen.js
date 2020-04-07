@@ -243,6 +243,10 @@ const PracticeWordScreen = ({route, navigation}) => {
     );
   }
 
+  if (exam) {
+    navigation.setOptions({title: 'Exam'});
+  }
+
   return (
     <ImageBackground
       source={require('../../assets/images/wood-bg.jpg')}
