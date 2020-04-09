@@ -1,4 +1,5 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {
   StyleSheet,
   Text,
@@ -16,10 +17,12 @@ import TranslationRow from './TranslationRow';
 import Definition from './Definition';
 import Examples from './Examples';
 import Images from '../constants/Images';
+import CardIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Mymodal = ({hideModal, modalVisible, verb, changeColor}) => {
+const Mymodal = ({hideModal, modalVisible, verb, changeColor, allWords}) => {
   let imageSrc;
   let key = verb.infinitive.word;
+  const navigation = useNavigation();
 
   if (Images[key]) {
     imageSrc = Images[key].imageSource;
@@ -30,6 +33,13 @@ const Mymodal = ({hideModal, modalVisible, verb, changeColor}) => {
       <View style={styles.backdrop}>
         <View style={styles.content}>
           <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Cards', {words: allWords, changeColor});
+                hideModal();
+              }}>
+              <CardIcon name="card-bulleted-outline" size={35} />
+            </TouchableOpacity>
             <TouchableOpacity onPress={hideModal}>
               <Icon name="md-close" size={35} />
             </TouchableOpacity>
@@ -99,7 +109,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 10,
   },
   colorsContainer: {

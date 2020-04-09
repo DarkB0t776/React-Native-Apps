@@ -12,6 +12,7 @@ import PracticeAllScreen from './src/screens/PracticeAllScreen';
 import PracticeWordScreen from './src/screens/PracticeWordScreen';
 import PracticeResultsScreen from './src/screens/PracticeResultsScreen';
 import ExamScreen from './src/screens/ExamScreen';
+import CardsScreen from './src/screens/CardsScreen';
 import Header from './src/components/Header';
 
 const Tab = createMaterialTopTabNavigator();
@@ -34,6 +35,7 @@ const Practice = ({navigation}) => (
       options={{title: 'Results'}}
     />
     <PracticeStack.Screen name="Exam" component={ExamScreen} />
+    <PracticeStack.Screen name="Cards" component={CardsScreen} />
   </PracticeStack.Navigator>
 );
 

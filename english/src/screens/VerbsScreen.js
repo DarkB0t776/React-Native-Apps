@@ -42,6 +42,7 @@ const VerbsScreen = () => {
       modalVisible={showModal}
       verb={selectedWord}
       changeColor={changeColor}
+      allWords={verbs}
     />
   );
 
