@@ -1,91 +1,23 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import ColorButton from './ColorButton';
-import WordsRow from './WordsRow';
-import TranscriptRow from './TranscriptRow';
-import SoundRow from './SoundRow';
-import TranslationRow from './TranslationRow';
-import Definition from './Definition';
-import Examples from './Examples';
-import Images from '../constants/Images';
-import CardIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StyleSheet, View, Modal} from 'react-native';
+import Card from './Card';
 
 const Mymodal = ({hideModal, modalVisible, verb, changeColor, allWords}) => {
-  let imageSrc;
-  let key = verb.infinitive.word;
   const navigation = useNavigation();
-
-  if (Images[key]) {
-    imageSrc = Images[key].imageSource;
-  }
 
   return (
     <Modal visible={modalVisible} transparent={true}>
       <View style={styles.backdrop}>
-        <View style={styles.content}>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Cards', {words: allWords, changeColor});
-                hideModal();
-              }}>
-              <CardIcon name="card-bulleted-outline" size={35} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={hideModal}>
-              <Icon name="md-close" size={35} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.colorsContainer}>
-            <TouchableOpacity onPress={() => changeColor('white', verb.id)}>
-              <ColorButton />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => changeColor('#76D3F5', verb.id)}>
-              <ColorButton style={{backgroundColor: '#76D3F5'}} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => changeColor('#F7D257', verb.id)}>
-              <ColorButton style={{backgroundColor: '#F7D257'}} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => changeColor('#63E244', verb.id)}>
-              <ColorButton style={{backgroundColor: '#63E244'}} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => changeColor('#F55757', verb.id)}>
-              <ColorButton style={{backgroundColor: '#F55757'}} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.wordsContainer}>
-            <WordsRow word={verb} />
-          </View>
-          <View style={styles.transcriptContainer}>
-            <TranscriptRow word={verb} />
-          </View>
-          <View style={styles.soundContainer}>
-            <SoundRow
-              infinitive={verb.infinitive.audio}
-              pastSimple={verb.pastSimple.audio}
-              pastPart={verb.pastPart.audio}
-            />
-          </View>
-          <View style={styles.translateContainer}>
-            <TranslationRow translation={verb.ua} />
-          </View>
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} source={imageSrc} />
-          </View>
-          <View style={styles.definitionContainer}>
-            <Definition definition={verb.definition} />
-          </View>
-          <View style={styles.exampleContainer}>
-            <Examples examples={verb.examples} />
-          </View>
+        <View style={styles.cardContainer}>
+          <Card
+            word={verb}
+            hideModal={hideModal}
+            changeColor={changeColor}
+            allWords={allWords}
+            navigation={navigation}
+            wordColor={verb.color}
+          />
         </View>
       </View>
     </Modal>
@@ -101,49 +33,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  content: {
-    backgroundColor: 'yellow',
-    width: '80%',
-    height: '90%',
-    borderRadius: 8,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-  },
-  colorsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 10,
-  },
-  wordsContainer: {
-    marginBottom: 10,
-  },
-  transcriptContainer: {
-    marginBottom: 8,
-  },
-  soundContainer: {
-    marginBottom: 8,
-  },
-  translateContainer: {
-    alignItems: 'center',
-    marginBottom: 5,
-  },
-  imageContainer: {
-    width: '80%',
-    height: '25%',
-    marginHorizontal: 30,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-  },
-  definitionContainer: {
-    paddingHorizontal: 10,
-  },
-  exampleContainer: {
-    paddingHorizontal: 10,
+  cardContainer: {
+    height: '85%',
+    width: '95%',
   },
 });

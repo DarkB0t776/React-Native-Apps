@@ -3,7 +3,9 @@ import {StyleSheet, Text, View} from 'react-native';
 import Grade from './Grade';
 
 const ResultCard = ({right, wrong, skipped, exam, percentage}) => {
-  let correct = <Text style={styles.correct}>Correct: {right}</Text>;
+  let correct = (
+    <Text style={{...styles.correct, ...styles.text}}>Correct: {right}</Text>
+  );
   let grade = null;
 
   if (exam) {

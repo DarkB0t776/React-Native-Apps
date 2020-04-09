@@ -1,12 +1,50 @@
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import Star from '../components/Star';
-import ColorButton from '../components/ColorButton';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ColorButton from './ColorButton';
+import WordsRow from './WordsRow';
+import TranscriptRow from './TranscriptRow';
+import SoundRow from './SoundRow';
+import TranslationRow from './TranslationRow';
+import Definition from './Definition';
+import Examples from './Examples';
+import Images from '../constants/Images';
+import CardIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Star from './Star';
 
-const Card = ({word, changeColor}) => {
+const Card = ({word, changeColor, hideModal, allWords, navigation, cards}) => {
   let star1 = <Star name="star-outlined" key="1" />;
   let star2 = <Star name="star-outlined" key="2" />;
   let star3 = <Star name="star-outlined" key="3" />;
+
+  let imageSrc;
+  let key = word.infinitive.word;
+
+  if (Images[key]) {
+    imageSrc = Images[key].imageSource;
+  }
+
+  let iconsSection = (
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Cards', {words: allWords, changeColor});
+          hideModal();
+        }}>
+        <CardIcon name="card-bulleted-outline" size={35} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={hideModal}>
+        <Icon name="md-close" size={35} />
+      </TouchableOpacity>
+    </View>
+  );
 
   if (word.stars === 1) {
     star1 = <Star name="star" key="1" />;
@@ -21,29 +59,72 @@ const Card = ({word, changeColor}) => {
     star1 = <Star name="star" key="1" />;
   }
 
-  return (
-    <View style={styles.card}>
+  if (cards) {
+    iconsSection = (
       <View style={styles.starsContainer}>
         {star1}
         {star2}
         {star3}
       </View>
+    );
+  }
+
+  return (
+    <View style={styles.content}>
+      {iconsSection}
       <View style={styles.colorsContainer}>
         <TouchableOpacity onPress={() => changeColor('white', word.id)}>
-          <ColorButton />
+          <ColorButton wordColor={word.color} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => changeColor('#76D3F5', word.id)}>
-          <ColorButton style={{backgroundColor: '#76D3F5'}} />
+          <ColorButton
+            wordColor={word.color}
+            style={{backgroundColor: '#76D3F5'}}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => changeColor('#F7D257', word.id)}>
-          <ColorButton style={{backgroundColor: '#F7D257'}} />
+          <ColorButton
+            wordColor={word.color}
+            style={{backgroundColor: '#F7D257'}}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => changeColor('#63E244', word.id)}>
-          <ColorButton style={{backgroundColor: '#63E244'}} />
+          <ColorButton
+            wordColor={word.color}
+            style={{backgroundColor: '#63E244'}}
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => changeColor('#F55757', word.id)}>
-          <ColorButton style={{backgroundColor: '#F55757'}} />
+          <ColorButton
+            wordColor={word.color}
+            style={{backgroundColor: '#F55757'}}
+          />
         </TouchableOpacity>
+      </View>
+      <View style={styles.wordsContainer}>
+        <WordsRow word={word} />
+      </View>
+      <View style={styles.transcriptContainer}>
+        <TranscriptRow word={word} />
+      </View>
+      <View style={styles.soundContainer}>
+        <SoundRow
+          infinitive={word.infinitive.audio}
+          pastSimple={word.pastSimple.audio}
+          pastPart={word.pastPart.audio}
+        />
+      </View>
+      <View style={styles.translateContainer}>
+        <TranslationRow translation={word.ua} />
+      </View>
+      <View style={styles.imageContainer}>
+        <Image style={styles.image} source={imageSrc} />
+      </View>
+      <View style={styles.definitionContainer}>
+        <Definition definition={word.definition} />
+      </View>
+      <View style={styles.exampleContainer}>
+        <Examples examples={word.examples} />
       </View>
     </View>
   );
@@ -60,9 +141,49 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  content: {
+    backgroundColor: 'yellow',
+    height: '100%',
+    width: 360,
+    borderRadius: 8,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
   colorsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginVertical: 10,
+  },
+  wordsContainer: {
+    marginBottom: 10,
+  },
+  transcriptContainer: {
+    marginBottom: 8,
+  },
+  soundContainer: {
+    marginBottom: 8,
+  },
+  translateContainer: {
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  imageContainer: {
+    width: '80%',
+    height: '25%',
+    marginHorizontal: 30,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  definitionContainer: {
+    paddingHorizontal: 10,
+  },
+  exampleContainer: {
+    paddingHorizontal: 10,
   },
 });

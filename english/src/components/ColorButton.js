@@ -1,11 +1,20 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import CheckIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ColorButton = props => {
-  return <View style={{...styles.colorButton, ...props.style}}></View>;
-};
+  let check = null;
+  let color = '';
+  if (props.style) {
+    color = props.style.backgroundColor;
+  }
 
-export default ColorButton;
+  if (props.wordColor === color) {
+    check = <CheckIcon name="check-outline" size={35} />;
+    console.log('changed');
+  }
+  return <View style={{...styles.colorButton, ...props.style}}>{check}</View>;
+};
 
 const styles = StyleSheet.create({
   colorButton: {
@@ -15,5 +24,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: 'black',
     backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
+export default ColorButton;

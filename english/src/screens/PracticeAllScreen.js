@@ -49,6 +49,7 @@ const PracticeAllScreen = () => {
         style={{backgroundColor: '#76D3F5'}}
         setWords={setWords}
         navigation={navigation}
+        practice={practice}
       />
 
       <WordsLabel
@@ -57,6 +58,7 @@ const PracticeAllScreen = () => {
         style={{backgroundColor: '#F7D257'}}
         setWords={setWords}
         navigation={navigation}
+        practice={practice}
       />
 
       <WordsLabel
@@ -65,6 +67,7 @@ const PracticeAllScreen = () => {
         style={{backgroundColor: '#63E244'}}
         setWords={setWords}
         navigation={navigation}
+        practice={practice}
       />
 
       <WordsLabel
@@ -73,6 +76,7 @@ const PracticeAllScreen = () => {
         style={{backgroundColor: '#F55757'}}
         setWords={setWords}
         navigation={navigation}
+        practice={practice}
       />
     </ImageBackground>
   );

@@ -19,7 +19,7 @@ const PracticeResultsScreen = ({route, navigation}) => {
   const rightWords = [];
 
   useEffect(() => {
-    getPercentage(percentage);
+    if (getPercentage) getPercentage(percentage);
   });
 
   useEffect(() => {
@@ -77,7 +77,12 @@ const PracticeResultsScreen = ({route, navigation}) => {
   }
 
   let myModal = (
-    <Mymodal hideModal={hideModal} modalVisible={modal} verb={selectedWord} />
+    <Mymodal
+      hideModal={hideModal}
+      modalVisible={modal}
+      verb={selectedWord}
+      AllWords={words}
+    />
   );
 
   if (Object.keys(selectedWord).length === 0) {
