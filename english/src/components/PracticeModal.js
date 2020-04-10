@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-
 const PracticeModal = ({visible, navigation, hideModal, words, setWords}) => {
   return (
     <Modal visible={visible} transparent={true}>

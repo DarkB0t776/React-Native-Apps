@@ -18,8 +18,17 @@ import Examples from './Examples';
 import Images from '../constants/Images';
 import CardIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Star from './Star';
+import QuestionIcon from 'react-native-vector-icons/FontAwesome5';
 
-const Card = ({word, changeColor, hideModal, allWords, navigation, cards}) => {
+const Card = ({
+  word,
+  changeColor,
+  hideModal,
+  allWords,
+  navigation,
+  cards,
+  showSection,
+}) => {
   let star1 = <Star name="star-outlined" key="1" />;
   let star2 = <Star name="star-outlined" key="2" />;
   let star3 = <Star name="star-outlined" key="3" />;
@@ -69,6 +78,34 @@ const Card = ({word, changeColor, hideModal, allWords, navigation, cards}) => {
     );
   }
 
+  let section = (
+    <View>
+      <View style={styles.wordsContainer}>
+        <WordsRow word={word} />
+      </View>
+      <View style={styles.transcriptContainer}>
+        <TranscriptRow word={word} />
+      </View>
+      <View style={styles.soundContainer}>
+        <SoundRow
+          infinitive={word.infinitive.audio}
+          pastSimple={word.pastSimple.audio}
+          pastPart={word.pastPart.audio}
+        />
+      </View>
+    </View>
+  );
+
+  if (showSection) {
+    section = (
+      <View style={styles.questionContainer}>
+        <QuestionIcon name="question" style={styles.questionIcon} />
+        <QuestionIcon name="question" style={styles.questionIcon} />
+        <QuestionIcon name="question" style={styles.questionIcon} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.content}>
       {iconsSection}
@@ -101,19 +138,7 @@ const Card = ({word, changeColor, hideModal, allWords, navigation, cards}) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.wordsContainer}>
-        <WordsRow word={word} />
-      </View>
-      <View style={styles.transcriptContainer}>
-        <TranscriptRow word={word} />
-      </View>
-      <View style={styles.soundContainer}>
-        <SoundRow
-          infinitive={word.infinitive.audio}
-          pastSimple={word.pastSimple.audio}
-          pastPart={word.pastPart.audio}
-        />
-      </View>
+      {section}
       <View style={styles.translateContainer}>
         <TranslationRow translation={word.ua} />
       </View>
@@ -185,5 +210,13 @@ const styles = StyleSheet.create({
   },
   exampleContainer: {
     paddingHorizontal: 10,
+  },
+  questionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+  },
+  questionIcon: {
+    fontSize: 55,
   },
 });

@@ -1,11 +1,25 @@
-import React from 'react';
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, FlatList} from 'react-native';
 import Card from '../components/Card';
+import CardHeader from '../components/CardHeader';
 
-const CardsScreen = ({route}) => {
+const CardsScreen = ({route, navigation}) => {
   const words = route.params.words;
   const changeColor = route.params.changeColor;
   const cards = true;
+  const [showSection, setShowSection] = useState(false);
+
+  const showSectionHandler = () => {
+    setShowSection(!showSection);
+  };
+
+  navigation.setOptions({
+    header: props => (
+      <CardHeader {...props} showSectionHandler={showSectionHandler} />
+    ),
+  });
+
+  console.log(showSection);
 
   return (
     <View style={styles.container}>
@@ -19,7 +33,12 @@ const CardsScreen = ({route}) => {
         renderItem={({item}) => {
           return (
             <View style={styles.cardContainer}>
-              <Card word={item} changeColor={changeColor} cards={cards} />
+              <Card
+                word={item}
+                changeColor={changeColor}
+                cards={cards}
+                showSection={showSection}
+              />
             </View>
           );
         }}

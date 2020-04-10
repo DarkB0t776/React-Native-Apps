@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useFocusEffect} from 'react';
 import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import ResultCard from '../components/ResultCard';
 import Colors from '../constants/Colors';
@@ -25,6 +25,24 @@ const PracticeResultsScreen = ({route, navigation}) => {
   useEffect(() => {
     setPercentage((rightWords.length / words.length).toFixed(2) * 100);
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (isSelectionModeEnabled()) {
+          disableSelectionMode();
+          return true;
+        } else {
+          return false;
+        }
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [isSelectionModeEnabled, disableSelectionMode]),
+  );
 
   const hideModal = () => {
     setModal(false);
