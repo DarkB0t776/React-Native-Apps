@@ -16,7 +16,6 @@ const Mymodal = ({hideModal, modalVisible, verb, changeColor, allWords}) => {
             changeColor={changeColor}
             allWords={allWords}
             navigation={navigation}
-            wordColor={verb.color}
           />
         </View>
       </View>

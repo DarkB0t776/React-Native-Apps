@@ -28,6 +28,7 @@ const Card = ({
   navigation,
   cards,
   showSection,
+  refreshList,
 }) => {
   let star1 = <Star name="star-outlined" key="1" />;
   let star2 = <Star name="star-outlined" key="2" />;
@@ -110,28 +111,48 @@ const Card = ({
     <View style={styles.content}>
       {iconsSection}
       <View style={styles.colorsContainer}>
-        <TouchableOpacity onPress={() => changeColor('white', word.id)}>
+        <TouchableOpacity
+          onPress={() => {
+            changeColor('white', word.id);
+            refreshList ? refreshList() : null;
+          }}>
           <ColorButton wordColor={word.color} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => changeColor('#76D3F5', word.id)}>
+        <TouchableOpacity
+          onPress={() => {
+            changeColor('#76D3F5', word.id);
+            refreshList ? refreshList() : null;
+          }}>
           <ColorButton
             wordColor={word.color}
             style={{backgroundColor: '#76D3F5'}}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => changeColor('#F7D257', word.id)}>
+        <TouchableOpacity
+          onPress={() => {
+            changeColor('#F7D257', word.id);
+            refreshList ? refreshList() : null;
+          }}>
           <ColorButton
             wordColor={word.color}
             style={{backgroundColor: '#F7D257'}}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => changeColor('#63E244', word.id)}>
+        <TouchableOpacity
+          onPress={() => {
+            changeColor('#63E244', word.id);
+            refreshList ? refreshList() : null;
+          }}>
           <ColorButton
             wordColor={word.color}
             style={{backgroundColor: '#63E244'}}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => changeColor('#F55757', word.id)}>
+        <TouchableOpacity
+          onPress={() => {
+            changeColor('#F55757', word.id);
+            refreshList ? refreshList() : null;
+          }}>
           <ColorButton
             wordColor={word.color}
             style={{backgroundColor: '#F55757'}}

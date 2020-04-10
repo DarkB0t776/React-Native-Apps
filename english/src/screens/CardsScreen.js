@@ -8,9 +8,14 @@ const CardsScreen = ({route, navigation}) => {
   const changeColor = route.params.changeColor;
   const cards = true;
   const [showSection, setShowSection] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const showSectionHandler = () => {
     setShowSection(!showSection);
+  };
+
+  const refreshListHandler = () => {
+    setRefresh(!refresh);
   };
 
   navigation.setOptions({
@@ -26,9 +31,9 @@ const CardsScreen = ({route, navigation}) => {
       <FlatList
         pagingEnabled={true}
         horizontal
-        initialNumToRender={1}
         style={styles.list}
         data={words}
+        extraData={refresh}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
           return (
@@ -38,6 +43,7 @@ const CardsScreen = ({route, navigation}) => {
                 changeColor={changeColor}
                 cards={cards}
                 showSection={showSection}
+                refreshList={refreshListHandler}
               />
             </View>
           );
