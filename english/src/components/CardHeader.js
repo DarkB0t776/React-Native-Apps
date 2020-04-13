@@ -6,7 +6,7 @@ import SearchIcon from 'react-native-vector-icons/Fontisto';
 import EyeIcon from 'react-native-vector-icons/Ionicons';
 import PlayIcon from 'react-native-vector-icons/MaterialIcons';
 
-const CardHeader = ({showSectionHandler}) => {
+const CardHeader = ({showSectionHandler, playLoop}) => {
   const navigation = useNavigation();
 
   return (
@@ -22,7 +22,9 @@ const CardHeader = ({showSectionHandler}) => {
         <TouchableOpacity onPress={showSectionHandler}>
           <EyeIcon name="md-eye" style={styles.eyeIcon} />
         </TouchableOpacity>
-        <PlayIcon name="play-circle-outline" style={styles.playIcon} />
+        <TouchableOpacity onPress={playLoop}>
+          <PlayIcon name="play-circle-outline" style={styles.playIcon} />
+        </TouchableOpacity>
       </View>
     </View>
   );
