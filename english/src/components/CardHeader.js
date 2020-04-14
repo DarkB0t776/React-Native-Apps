@@ -1,31 +1,75 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import SearchIcon from 'react-native-vector-icons/Fontisto';
 import EyeIcon from 'react-native-vector-icons/Ionicons';
 import PlayIcon from 'react-native-vector-icons/MaterialIcons';
+import CloseIcon from 'react-native-vector-icons/AntDesign';
+import {DefaultTabBar} from '@valdio/react-native-scrollable-tabview';
 
-const CardHeader = ({showSectionHandler, playLoop}) => {
+const CardHeader = ({showSectionHandler, playLoop, term, onSearchHandler}) => {
   const navigation = useNavigation();
+  const [showSearch, setShowSearch] = useState(false);
+  const searchRef = useRef();
+
+  const hideSearch = () => {
+    onSearchHandler('');
+    if (term.length === 0) {
+      setShowSearch(false);
+    }
+  };
+
+  let rightsSection = (
+    <View style={styles.rightSection}>
+      <TouchableOpacity onPress={() => setShowSearch(true)}>
+        <SearchIcon name="search" style={styles.searchIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={showSectionHandler}>
+        <EyeIcon name="md-eye" style={styles.eyeIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={playLoop}>
+        <PlayIcon name="play-circle-outline" style={styles.playIcon} />
+      </TouchableOpacity>
+    </View>
+  );
+
+  if (showSearch) {
+    rightsSection = (
+      <View style={styles.searchContainer}>
+        <TextInput
+          autoCapitalize="none"
+          value={term}
+          onChangeText={onSearchHandler}
+          style={styles.search}
+          placeholder="Search..."
+          ref={searchRef}
+        />
+        <TouchableOpacity onPress={hideSearch}>
+          <CloseIcon name="close" style={styles.closeIcon} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.leftSection}>
-        <TouchableOpacity onPress={() => navigation.navigate('Verbs')}>
-          <ArrowLeft name="arrowleft" style={styles.arrowLeft} />
-        </TouchableOpacity>
-        <Text style={styles.title}>Cards</Text>
+    <View style={styles.header}>
+      <View style={styles.container}>
+        <View style={styles.leftSection}>
+          <TouchableOpacity onPress={() => navigation.navigate('Verbs')}>
+            <ArrowLeft name="arrowleft" style={styles.arrowLeft} />
+          </TouchableOpacity>
+          <Text style={styles.title}>Cards</Text>
+        </View>
+        {rightsSection}
       </View>
-      <View style={styles.rightSection}>
-        <SearchIcon name="search" style={styles.searchIcon} />
-        <TouchableOpacity onPress={showSectionHandler}>
-          <EyeIcon name="md-eye" style={styles.eyeIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={playLoop}>
-          <PlayIcon name="play-circle-outline" style={styles.playIcon} />
-        </TouchableOpacity>
-      </View>
+      <View style={styles.listContainer} />
     </View>
   );
 };
@@ -33,8 +77,9 @@ const CardHeader = ({showSectionHandler, playLoop}) => {
 export default CardHeader;
 
 const styles = StyleSheet.create({
+  header: {},
   container: {
-    height: 70,
+    height: 40,
     backgroundColor: 'green',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -53,6 +98,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  searchContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    marginLeft: 10,
+  },
+  search: {
+    width: '70%',
+    fontSize: 17,
+    backgroundColor: '#259631',
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  closeIcon: {
+    fontSize: 25,
+    color: 'white',
+  },
   rightSection: {
     flexDirection: 'row',
     marginTop: 7,
@@ -64,11 +125,15 @@ const styles = StyleSheet.create({
   eyeIcon: {
     fontSize: 25,
     color: 'white',
-    marginLeft: 15,
+    marginHorizontal: 25,
   },
   playIcon: {
     fontSize: 25,
     color: 'white',
-    marginHorizontal: 15,
+    marginRight: 20,
+  },
+  listContainer: {
+    backgroundColor: 'green',
+    height: 42,
   },
 });

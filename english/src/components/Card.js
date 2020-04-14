@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ColorButton from './ColorButton';
 import WordsRow from './WordsRow';

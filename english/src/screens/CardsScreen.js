@@ -13,10 +13,23 @@ const CardsScreen = ({route, navigation}) => {
   const [showSection, setShowSection] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [playLoop, setPlayLoop] = useState(false);
+  const [term, setTerm] = useState('');
 
-  console.log('PlayLoop', playLoop);
-
-  useEffect(() => {}, []);
+  useEffect(() => {
+    for (const word of words) {
+      if (
+        word.infinitive.word === term ||
+        word.pastSimple.word === term ||
+        word.pastPart.word === term
+      ) {
+        const idxW = words.indexOf(word);
+        flatListRef.current.scrollToIndex({
+          index: idxW,
+          animated: true,
+        });
+      }
+    }
+  });
 
   const showSectionHandler = () => {
     setShowSection(!showSection);
@@ -30,18 +43,23 @@ const CardsScreen = ({route, navigation}) => {
     setPlayLoop(!playLoop);
   };
 
+  const onSearchHandler = searchTerm => {
+    setTerm(searchTerm);
+  };
+
+  console.log(term);
+
   navigation.setOptions({
     header: props => (
       <CardHeader
         {...props}
         showSectionHandler={showSectionHandler}
         playLoop={startPlaySounds}
+        term={term}
+        onSearchHandler={onSearchHandler}
       />
     ),
   });
-
-  console.log('idx', idx);
-  console.log('words length', words.length - 1);
 
   while (playLoop) {
     flatListRef.current.scrollToIndex({
