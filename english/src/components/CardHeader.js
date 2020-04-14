@@ -6,15 +6,21 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from 'react-native';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import SearchIcon from 'react-native-vector-icons/Fontisto';
 import EyeIcon from 'react-native-vector-icons/Ionicons';
 import PlayIcon from 'react-native-vector-icons/MaterialIcons';
 import CloseIcon from 'react-native-vector-icons/AntDesign';
-import {DefaultTabBar} from '@valdio/react-native-scrollable-tabview';
 
-const CardHeader = ({showSectionHandler, playLoop, term, onSearchHandler}) => {
+const CardHeader = ({
+  showSectionHandler,
+  playLoop,
+  term,
+  onSearchHandler,
+  words,
+}) => {
   const navigation = useNavigation();
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef();
@@ -69,7 +75,20 @@ const CardHeader = ({showSectionHandler, playLoop, term, onSearchHandler}) => {
         </View>
         {rightsSection}
       </View>
-      <View style={styles.listContainer} />
+      <View style={styles.listContainer}>
+        <FlatList
+          data={words}
+          keyExtractor={item => item.id}
+          horizontal
+          renderItem={({item}) => {
+            return (
+              <View style={styles.tabContainer}>
+                <Text style={styles.tab}>{item.infinitive.word}</Text>
+              </View>
+            );
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -135,5 +154,16 @@ const styles = StyleSheet.create({
   listContainer: {
     backgroundColor: 'green',
     height: 42,
+    paddingTop: 10,
+  },
+  tabContainer: {
+    borderBottomWidth: 3,
+    borderBottomColor: 'white',
+  },
+  tab: {
+    marginHorizontal: 10,
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

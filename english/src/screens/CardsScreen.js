@@ -57,6 +57,7 @@ const CardsScreen = ({route, navigation}) => {
         playLoop={startPlaySounds}
         term={term}
         onSearchHandler={onSearchHandler}
+        words={words}
       />
     ),
   });
