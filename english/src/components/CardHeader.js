@@ -20,15 +20,40 @@ const CardHeader = ({
   term,
   onSearchHandler,
   words,
+  sounds,
+  setIdx,
+  idx,
 }) => {
   const navigation = useNavigation();
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef();
 
+  let playAudio = false;
+
   const hideSearch = () => {
     onSearchHandler('');
     if (term.length === 0) {
       setShowSearch(false);
+    }
+  };
+
+  const playSounds = () => {
+    if (sounds.length) {
+      sounds[0].play(success => {
+        if (success) {
+          sounds[1].play(success => {
+            if (success) {
+              sounds[2].play(success => {
+                if (success) {
+                  setIdx(prevIdx => prevIdx + 1);
+                }
+              });
+            }
+          });
+        } else {
+          console.log('Error');
+        }
+      });
     }
   };
 
@@ -40,7 +65,12 @@ const CardHeader = ({
       <TouchableOpacity onPress={showSectionHandler}>
         <EyeIcon name="md-eye" style={styles.eyeIcon} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={playLoop}>
+      <TouchableOpacity
+        onPress={() => {
+          playAudio = true;
+
+          playSounds();
+        }}>
         <PlayIcon name="play-circle-outline" style={styles.playIcon} />
       </TouchableOpacity>
     </View>

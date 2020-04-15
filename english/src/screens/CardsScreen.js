@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, FlatList} from 'react-native';
 import Card from '../components/Card';
 import CardHeader from '../components/CardHeader';
 
-let idx = 0;
+// let idx = 0;
 
 const CardsScreen = ({route, navigation}) => {
   const words = route.params.words;
@@ -13,8 +13,9 @@ const CardsScreen = ({route, navigation}) => {
   const [showSection, setShowSection] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [playLoop, setPlayLoop] = useState(false);
+  const [idx, setIdx] = useState(0);
   const [term, setTerm] = useState('');
-
+  const sounds = [];
   useEffect(() => {
     for (const word of words) {
       if (
@@ -30,11 +31,10 @@ const CardsScreen = ({route, navigation}) => {
       }
     }
   });
-
+  console.log(idx);
   const showSectionHandler = () => {
     setShowSection(!showSection);
   };
-
   const refreshListHandler = () => {
     setRefresh(!refresh);
   };
@@ -47,8 +47,6 @@ const CardsScreen = ({route, navigation}) => {
     setTerm(searchTerm);
   };
 
-  console.log(term);
-
   navigation.setOptions({
     header: props => (
       <CardHeader
@@ -58,21 +56,20 @@ const CardsScreen = ({route, navigation}) => {
         term={term}
         onSearchHandler={onSearchHandler}
         words={words}
+        sounds={sounds}
+        setIdx={setIdx}
+        idx={idx}
       />
     ),
   });
+  const getSounds = (sound1, sound2, sound3) => {
+    sounds.push(sound1, sound2, sound3);
+  };
 
-  while (playLoop) {
-    flatListRef.current.scrollToIndex({
-      index: ++idx,
-      animated: true,
-    });
-    if (idx === words.length - 1) {
-      idx = 0;
-      setPlayLoop(false);
-      break;
-    }
-  }
+  flatListRef.current?.scrollToIndex({
+    index: idx,
+    animated: true,
+  });
 
   return (
     <View style={styles.container}>
@@ -99,6 +96,7 @@ const CardsScreen = ({route, navigation}) => {
                 showSection={showSection}
                 refreshList={refreshListHandler}
                 playLoop={playLoop}
+                getSounds={getSounds}
               />
             </View>
           );

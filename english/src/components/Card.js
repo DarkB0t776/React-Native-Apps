@@ -23,6 +23,7 @@ const Card = ({
   showSection,
   refreshList,
   playLoop,
+  getSounds,
 }) => {
   let star1 = <Star name="star-outlined" key="1" />;
   let star2 = <Star name="star-outlined" key="2" />;
@@ -87,6 +88,7 @@ const Card = ({
           pastSimple={word.pastSimple.audio}
           pastPart={word.pastPart.audio}
           playLoop={playLoop}
+          getSounds={getSounds}
         />
       </View>
     </View>
