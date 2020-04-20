@@ -24,6 +24,8 @@ const Card = ({
   refreshList,
   playLoop,
   getSounds,
+  currentIdx,
+  getCurrentIdx,
 }) => {
   let star1 = <Star name="star-outlined" key="1" />;
   let star2 = <Star name="star-outlined" key="2" />;

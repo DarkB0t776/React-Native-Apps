@@ -14,6 +14,7 @@ import SearchIcon from 'react-native-vector-icons/Fontisto';
 import EyeIcon from 'react-native-vector-icons/Ionicons';
 import PlayIcon from 'react-native-vector-icons/MaterialIcons';
 import CloseIcon from 'react-native-vector-icons/AntDesign';
+import MaterialTabs from 'react-native-material-tabs';
 
 const CardHeader = ({
   showSectionHandler,
@@ -41,7 +42,6 @@ const CardHeader = ({
       setShowSearch(false);
     }
   };
-
   const playSounds = () => {
     let i = 0;
     return mapSeries(sounds, (item, callback) => {
@@ -113,7 +113,12 @@ const CardHeader = ({
         {rightsSection}
       </View>
       <View style={styles.listContainer}>
-        <FlatList
+        <MaterialTabs
+          items={words.map(item => item.infinitive.word)}
+          selectedIndex={idx}
+          barColor="green"
+        />
+        {/* <FlatList
           data={words}
           keyExtractor={item => item.id}
           horizontal
@@ -124,7 +129,7 @@ const CardHeader = ({
               </View>
             );
           }}
-        />
+        /> */}
       </View>
     </View>
   );
@@ -190,7 +195,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     backgroundColor: 'green',
-    height: 42,
+    height: 55,
     paddingTop: 10,
   },
   tabContainer: {

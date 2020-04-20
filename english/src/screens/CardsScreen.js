@@ -1,11 +1,12 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {StyleSheet, View, Text, FlatList} from 'react-native';
+import {StyleSheet, View, Text, FlatList, ScrollView} from 'react-native';
 import Card from '../components/Card';
 import CardHeader from '../components/CardHeader';
 
 // let idx = 0;
 
 const CardsScreen = ({route, navigation}) => {
+  let currentIdx = 0;
   const words = route.params.words;
   const changeColor = route.params.changeColor;
   const cards = true;
@@ -16,6 +17,7 @@ const CardsScreen = ({route, navigation}) => {
   const [idx, setIdx] = useState(0);
   const [term, setTerm] = useState('');
   const sounds = [];
+
   useEffect(() => {
     for (const word of words) {
       if (
@@ -37,10 +39,7 @@ const CardsScreen = ({route, navigation}) => {
       index: idx,
       animated: true,
     });
-    // if (idx === words.length - 1) setIdx(0);
   }, [idx]);
-
-  console.log(idx);
 
   const showSectionHandler = () => {
     setShowSection(!showSection);
@@ -55,6 +54,10 @@ const CardsScreen = ({route, navigation}) => {
 
   const onSearchHandler = searchTerm => {
     setTerm(searchTerm);
+  };
+
+  const onViewableItemsChanged = ({viewableItems}) => {
+    setIdx(viewableItems[0].index);
   };
 
   navigation.setOptions({
@@ -89,6 +92,7 @@ const CardsScreen = ({route, navigation}) => {
         })}
         pagingEnabled={true}
         horizontal
+        showsHorizontalScrollIndicator={false}
         style={styles.list}
         data={words}
         extraData={refresh}
@@ -117,5 +121,7 @@ export default CardsScreen;
 
 const styles = StyleSheet.create({
   container: {flex: 1, flexDirection: 'row'},
-  cardContainer: {},
+  cardContainer: {
+    height: 500,
+  },
 });
