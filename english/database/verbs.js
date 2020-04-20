@@ -39,19 +39,19 @@ export default [
     infinitive: {
       word: 'arise',
       transcript: '/əˈrʌɪz/',
-      audio: 'abide1.mp3',
+      audio: 'arise.mp3',
       wrong: 0,
     },
     pastSimple: {
       word: 'arose',
       transcript: '/əˈrəʊz/',
-      audio: 'abode2.mp3',
+      audio: 'arose.mp3',
       wrong: 0,
     },
     pastPart: {
       word: 'arisen',
       transcript: '/əˈrɪz(ə)n/',
-      audio: 'abode3.mp3',
+      audio: 'arisen.mp3',
       wrong: 0,
     },
     definition:

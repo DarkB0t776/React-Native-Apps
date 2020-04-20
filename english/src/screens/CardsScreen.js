@@ -31,7 +31,17 @@ const CardsScreen = ({route, navigation}) => {
       }
     }
   });
+
+  useEffect(() => {
+    flatListRef.current?.scrollToIndex({
+      index: idx,
+      animated: true,
+    });
+    // if (idx === words.length - 1) setIdx(0);
+  }, [idx]);
+
   console.log(idx);
+
   const showSectionHandler = () => {
     setShowSection(!showSection);
   };
@@ -52,24 +62,21 @@ const CardsScreen = ({route, navigation}) => {
       <CardHeader
         {...props}
         showSectionHandler={showSectionHandler}
-        playLoop={startPlaySounds}
+        onPlayLoop={startPlaySounds}
+        playLoop={playLoop}
         term={term}
         onSearchHandler={onSearchHandler}
         words={words}
         sounds={sounds}
         setIdx={setIdx}
         idx={idx}
+        wordsLength={words.length - 1}
       />
     ),
   });
   const getSounds = (sound1, sound2, sound3) => {
     sounds.push(sound1, sound2, sound3);
   };
-
-  flatListRef.current?.scrollToIndex({
-    index: idx,
-    animated: true,
-  });
 
   return (
     <View style={styles.container}>

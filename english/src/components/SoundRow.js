@@ -36,23 +36,23 @@ const SoundRow = ({infinitive, pastSimple, pastPart, playLoop, getSounds}) => {
     sound.play();
   };
 
-  const playSounds = () => {
-    sound1.play(success => {
-      if (success) {
-        sound2.play(success => {
-          if (success) {
-            sound3.play();
-          }
-        });
-      } else {
-        console.log('error');
-      }
-    });
-  };
+  // const playSounds = () => {
+  //   sound1.play(success => {
+  //     if (success) {
+  //       sound2.play(success => {
+  //         if (success) {
+  //           sound3.play();
+  //         }
+  //       });
+  //     } else {
+  //       console.log('error');
+  //     }
+  //   });
+  // };
 
-  if (playLoop) {
-    playSounds();
-  }
+  // if (playLoop) {
+  //   playSounds();
+  // }
 
   return (
     <View style={styles.container}>

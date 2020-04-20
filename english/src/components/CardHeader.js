@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   View,
@@ -8,6 +8,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
+import mapSeries from 'async/mapSeries';
 import ArrowLeft from 'react-native-vector-icons/AntDesign';
 import SearchIcon from 'react-native-vector-icons/Fontisto';
 import EyeIcon from 'react-native-vector-icons/Ionicons';
@@ -16,6 +17,7 @@ import CloseIcon from 'react-native-vector-icons/AntDesign';
 
 const CardHeader = ({
   showSectionHandler,
+  onPlayLoop,
   playLoop,
   term,
   onSearchHandler,
@@ -23,12 +25,15 @@ const CardHeader = ({
   sounds,
   setIdx,
   idx,
+  wordsLength,
 }) => {
   const navigation = useNavigation();
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef();
 
-  let playAudio = false;
+  useEffect(() => {
+    searchRef.current?.focus();
+  });
 
   const hideSearch = () => {
     onSearchHandler('');
@@ -38,38 +43,40 @@ const CardHeader = ({
   };
 
   const playSounds = () => {
-    if (sounds.length) {
-      sounds[0].play(success => {
-        if (success) {
-          sounds[1].play(success => {
-            if (success) {
-              sounds[2].play(success => {
-                if (success) {
-                  setIdx(prevIdx => prevIdx + 1);
-                }
-              });
-            }
-          });
-        } else {
-          console.log('Error');
+    let i = 0;
+    return mapSeries(sounds, (item, callback) => {
+      const soundIdx = sounds.indexOf(item);
+
+      item.play(success => {
+        console.log(`i - ${i}, wordsLength - ${wordsLength}`);
+
+        if ((soundIdx + 1) % 3 === 0) {
+          if (i === wordsLength) return;
+          setIdx(prevIdx => prevIdx + 1);
+          i++;
         }
+        callback();
       });
-    }
+    });
   };
 
   let rightsSection = (
     <View style={styles.rightSection}>
-      <TouchableOpacity onPress={() => setShowSearch(true)}>
+      <TouchableOpacity
+        onPress={() => {
+          setShowSearch(true);
+        }}>
         <SearchIcon name="search" style={styles.searchIcon} />
       </TouchableOpacity>
       <TouchableOpacity onPress={showSectionHandler}>
         <EyeIcon name="md-eye" style={styles.eyeIcon} />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          playAudio = true;
+        onPress={async () => {
+          onPlayLoop();
+          await playSounds();
 
-          playSounds();
+          // setIdx(prevIdx => prevIdx + 1);
         }}>
         <PlayIcon name="play-circle-outline" style={styles.playIcon} />
       </TouchableOpacity>
