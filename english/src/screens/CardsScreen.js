@@ -3,8 +3,6 @@ import {StyleSheet, View, Text, FlatList, ScrollView} from 'react-native';
 import Card from '../components/Card';
 import CardHeader from '../components/CardHeader';
 
-// let idx = 0;
-
 const CardsScreen = ({route, navigation}) => {
   let currentIdx = 0;
   const words = route.params.words;
